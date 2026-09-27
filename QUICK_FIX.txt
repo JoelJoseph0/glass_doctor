@@ -1,0 +1,45 @@
+===============================================
+QUICK FIX - npm ci Synchronization Issue
+===============================================
+
+PROBLEM:
+GitHub Actions fails: "package.json and package-lock.json are not in sync"
+
+SOLUTION (Run these 3 commands):
+
+1. Open Command Prompt (CMD)
+   Start > type "cmd" > Enter
+
+2. Navigate to project:
+   cd d:\Freelance\vitrum-glass
+
+3. Run these commands one by one:
+
+   npm install
+   
+   npm ci
+   
+   npm run build
+
+4. If all succeed, commit and push:
+
+   git add package.json package-lock.json
+   git add src/hooks/useScrollReveal.ts
+   git add src/vite-env.d.ts
+   git add tsconfig.json
+   git commit -m "Fix build: sync dependencies"
+   git push
+
+DONE! GitHub Actions will now work.
+
+===============================================
+TIME: ~3 minutes total
+===============================================
+
+WHAT EACH COMMAND DOES:
+- npm install    → Updates package-lock.json
+- npm ci         → Tests sync (what GitHub uses)
+- npm run build  → Verifies build works
+- git push       → Deploys via GitHub Actions
+
+===============================================

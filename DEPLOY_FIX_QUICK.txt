@@ -1,0 +1,49 @@
+===============================================
+GITHUB PAGES BLANK PAGE - QUICK FIX
+===============================================
+
+PROBLEM:
+Site is blank at https://joeljoseph0.github.io/glass_doctor/
+
+CAUSE:
+Missing base path in vite.config.ts
+
+FIX APPLIED:
+Added: base: '/glass_doctor/' to vite.config.ts
+
+===============================================
+
+RUN THESE 3 COMMANDS:
+
+1. npm run build
+
+2. git add vite.config.ts
+
+3. git commit -m "Fix blank page: add base path" && git push
+
+===============================================
+
+RESULT:
+✅ Site will load at https://joeljoseph0.github.io/glass_doctor/
+   (Wait 2-3 minutes after push)
+
+===============================================
+
+VERIFY:
+1. Visit: https://joeljoseph0.github.io/glass_doctor/
+2. Press F12 → Console tab
+3. Should see no 404 errors
+4. Site should load completely
+
+===============================================
+
+WHEN SWITCHING TO theglassdoctor.ae:
+
+1. Change base: '/' in vite.config.ts
+2. npm run build
+3. git commit and push
+
+===============================================
+
+TIME: ~5 minutes total
+===============================================
