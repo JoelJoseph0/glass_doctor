@@ -20,13 +20,22 @@ export default function BrandStatement() {
           w-full
           h-full
           object-cover
+          scale-105
+          animate-[ken-burns_20s_ease-in-out_infinite_alternate]
         "
       />
 
+      {/* Enhanced gradient overlays */}
       <div className="
         absolute
         inset-0
-        bg-[#171717]/65
+        bg-gradient-to-b from-[#171717]/70 via-[#171717]/50 to-[#171717]/70
+      " />
+      
+      <div className="
+        absolute
+        inset-0
+        bg-[radial-gradient(circle_at_center,transparent_0%,#171717_100%)]
       " />
 
       <div className="
@@ -47,18 +56,23 @@ export default function BrandStatement() {
             justify-center
             gap-4
             mb-8
+            group
           ">
-            <div className="w-8 h-px bg-[#B39A70]" />
+            <div className="w-8 h-px bg-gradient-to-r from-transparent to-[#B39A70] group-hover:w-12 transition-all duration-500" />
 
             <div className="
               w-2
               h-2
-              border
+              border-2
               border-[#B39A70]
               rotate-45
+              group-hover:rotate-90
+              group-hover:scale-125
+              transition-all
+              duration-500
             " />
 
-            <div className="w-8 h-px bg-[#B39A70]" />
+            <div className="w-8 h-px bg-gradient-to-l from-transparent to-[#B39A70] group-hover:w-12 transition-all duration-500" />
           </div>
 
           <h2 className="
@@ -71,25 +85,42 @@ export default function BrandStatement() {
             leading-[1.1]
             mb-6
             px-4
+            group
+            hover:text-[#E8E4DC]
+            transition-colors
+            duration-500
           ">
-            "Precision in Glass.
+            <span className="inline-block">"Precision in Glass.</span>
             <br className="hidden sm:block" />
-            <em>Excellence in Every Detail."</em>
+            <em className="inline-block hover:text-[#B39A70] transition-colors duration-300">Excellence in Every Detail."</em>
+            
+            {/* Text shadow effect */}
+            <span className="absolute inset-0 text-[#B39A70] opacity-0 group-hover:opacity-10 blur-2xl transition-all duration-500 pointer-events-none">
+              Excellence
+            </span>
           </h2>
 
           <p className="
-            text-[#77736C]
+            text-[#E8E4DC]
             text-[9px]
             sm:text-[10px]
             tracking-[0.28em]
             uppercase
             px-4
+            hover:text-[#B39A70]
+            transition-colors
+            duration-300
           ">
             The Glass Doctor — Excellence Through Transparency
           </p>
 
         </div>
       </div>
+      
+      {/* Vignette effect */}
+      <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(23,23,23,0.8)] pointer-events-none" />
     </section>
   )
 }
+
+/* Add Ken Burns animation to index.css */

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import ArrowRight from '@/components/common/ArrowRight'
 import { PRODUCTS } from '@/data/products'
 import LazyImage from '@/components/common/LazyImage'
@@ -5,13 +6,22 @@ import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 export default function ProductsSection() {
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal()
+  const [activeProduct, setActiveProduct] = useState<number | null>(null)
 
   return (
     <section
       id="products"
-      className="py-24 md:py-32 bg-[#F8F7F4]"
+      className="py-24 md:py-32 bg-[#F8F7F4] relative overflow-hidden"
     >
-      <div className="max-w-[1440px] mx-auto px-6 md:px-10">
+      {/* Decorative Grid Pattern */}
+      <div className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `linear-gradient(#171717 1px, transparent 1px), linear-gradient(90deg, #171717 1px, transparent 1px)`,
+          backgroundSize: '50px 50px'
+        }}
+      />
+
+      <div className="max-w-[1440px] mx-auto px-6 md:px-10 relative z-10">
 
         <div 
           ref={headerRef}
@@ -21,22 +31,22 @@ export default function ProductsSection() {
             md:flex-row
             md:items-end
             justify-between
-            mb-14
+            mb-16
             transition-all duration-1000
             ${headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
           `}
         >
-          <div>
+          <div className="max-w-2xl">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-8 h-px bg-[#B39A70]" />
-
+              <div className="w-12 h-px bg-gradient-to-r from-[#B39A70] to-transparent" />
               <span className="
                 text-[#B39A70]
                 text-[9px]
                 tracking-[0.42em]
                 uppercase
+                font-semibold
               ">
-                Solutions
+                Our Services
               </span>
             </div>
 
@@ -45,132 +55,299 @@ export default function ProductsSection() {
               text-[#171717]
               text-4xl
               md:text-5xl
+              lg:text-6xl
               leading-[1.08]
+              mb-4
             ">
-              Our Glass Solutions
+              Glass &amp; Architectural
+              <br />
+              <em className="text-[#B39A70]">Solutions</em>
             </h2>
           </div>
 
-          <p className="
+          <div className="
             text-[#77736C]
             text-sm
-            max-w-[220px]
+            max-w-[280px]
             mt-6
             md:mt-0
             leading-relaxed
+            relative
+            pl-4
+            border-l-2
+            border-[#B39A70]
           ">
-            Designed for contemporary spaces.
-            <br />
-            Engineered for lasting performance.
-          </p>
+            <p>
+              Designed for contemporary spaces.
+              <br />
+              Engineered for lasting performance.
+            </p>
+          </div>
         </div>
 
+        {/* Products Grid - Masonry Layout */}
         <div className="
           grid
           md:grid-cols-2
-          gap-4
+          gap-6
         ">
           {PRODUCTS.map((product, index) => (
             <div
               key={product.name}
+              onMouseEnter={() => setActiveProduct(index)}
+              onMouseLeave={() => setActiveProduct(null)}
               className={`
                 group
                 relative
                 overflow-hidden
                 cursor-pointer
+                bg-white
+                border-2
+                border-[#E8E4DC]
                 transition-all
                 duration-700
+                hover:border-[#B39A70]
                 hover:shadow-2xl
-                hover:shadow-[#171717]/20
+                hover:shadow-[#171717]/10
                 ${headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}
                 ${
                   product.tall
-                    ? 'h-[520px]'
-                    : 'h-[380px]'
+                    ? 'md:row-span-2 h-[680px]'
+                    : 'h-[420px]'
                 }
               `}
               style={{
                 transitionDelay: `${index * 150}ms`
               }}
             >
-              <LazyImage
-                src={product.image}
-                alt={product.name}
-                className="
-                  w-full
-                  h-full
-                  object-cover
-                  transition-transform
-                  duration-700
-                  group-hover:scale-[1.06]
-                "
-              />
+              {/* Image Section */}
+              <div className="relative h-full">
+                <LazyImage
+                  src={product.image}
+                  alt={product.name}
+                  className="
+                    w-full
+                    h-full
+                    object-cover
+                    transition-transform
+                    duration-700
+                    group-hover:scale-105
+                  "
+                />
 
-              <div className="
-                absolute
-                inset-0
-                bg-gradient-to-t
-                from-[#171717]/85
-                via-[#171717]/15
-                to-transparent
-              " />
-
-              <div className="
-                absolute
-                bottom-0
-                left-0
-                right-0
-                p-8
-              ">
+                {/* Gradient Overlay */}
                 <div className="
-                  w-8
-                  h-px
-                  bg-[#B39A70]
-                  mb-4
-                  transition-all
+                  absolute
+                  inset-0
+                  bg-gradient-to-t
+                  from-[#171717]
+                  via-[#171717]/60
+                  to-transparent
+                  transition-opacity
                   duration-500
-                  group-hover:w-16
                 " />
 
-                <h3 className="
-                  font-display
-                  text-[#F8F7F4]
-                  text-2xl
-                  md:text-3xl
-                  mb-2
-                ">
-                  {product.name}
-                </h3>
-
-                <p className="
-                  text-[#D0CCC4]
-                  text-sm
-                ">
-                  {product.description}
-                </p>
-
+                {/* Corner Accent */}
                 <div className="
-                  mt-4
-                  flex
-                  items-center
-                  gap-2
-                  text-[#B39A70]
-                  text-[10px]
-                  tracking-[0.22em]
-                  uppercase
+                  absolute
+                  top-0
+                  right-0
+                  w-0
+                  h-0
+                  border-t-[60px]
+                  border-t-[#B39A70]
+                  border-l-[60px]
+                  border-l-transparent
                   opacity-0
-                  -translate-y-1
                   group-hover:opacity-100
+                  transition-opacity
+                  duration-500
+                " />
+
+                {/* Content Container */}
+                <div className="
+                  absolute
+                  bottom-0
+                  left-0
+                  right-0
+                  p-8
+                  transform
+                  transition-transform
+                  duration-500
                   group-hover:translate-y-0
-                  transition-all
-                  duration-300
-                  group
                 ">
-                  <span>Explore</span>
-                  <span className="group-hover:translate-x-1 transition-transform duration-300">
-                    <ArrowRight />
-                  </span>
+                  
+                  {/* Number Indicator */}
+                  <div className="
+                    inline-block
+                    mb-4
+                    font-display
+                    text-[#B39A70]
+                    text-5xl
+                    opacity-30
+                    group-hover:opacity-60
+                    transition-opacity
+                    duration-300
+                  ">
+                    {String(index + 1).padStart(2, '0')}
+                  </div>
+
+                  {/* Decorative Line */}
+                  <div className="
+                    w-10
+                    h-px
+                    bg-[#B39A70]
+                    mb-4
+                    transition-all
+                    duration-500
+                    group-hover:w-24
+                  " />
+
+                  {/* Product Name */}
+                  <h3 className="
+                    font-display
+                    text-[#F8F7F4]
+                    text-2xl
+                    md:text-3xl
+                    mb-3
+                    leading-tight
+                  ">
+                    {product.name}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="
+                    text-[#D0CCC4]
+                    text-sm
+                    leading-relaxed
+                    mb-5
+                    transform
+                    transition-all
+                    duration-500
+                    ${activeProduct === index ? 'opacity-100 translate-y-0' : 'opacity-70 translate-y-2'}
+                  ">
+                    {product.description}
+                  </p>
+
+                  {/* Learn More Button */}
+                  <div className="
+                    flex
+                    items-center
+                    gap-2
+                    text-[#B39A70]
+                    text-[10px]
+                    tracking-[0.22em]
+                    uppercase
+                    font-semibold
+                    transform
+                    transition-all
+                    duration-300
+                    group-hover:gap-4
+                  ">
+                    <span className="
+                      py-2
+                      px-4
+                      bg-[#B39A70]/20
+                      group-hover:bg-[#B39A70]
+                      group-hover:text-[#171717]
+                      transition-all
+                      duration-300
+                    ">
+                      Explore Service
+                    </span>
+                    <ArrowRight className="
+                      transform
+                      group-hover:translate-x-2
+                      transition-transform
+                      duration-300
+                    " />
+                  </div>
                 </div>
+
+                {/* Hover Border Effect */}
+                <div className="
+                  absolute
+                  inset-0
+                  border-4
+                  border-[#B39A70]
+                  scale-95
+                  opacity-0
+                  group-hover:scale-100
+                  group-hover:opacity-100
+                  transition-all
+                  duration-500
+                  pointer-events-none
+                " />
+              </div>
+
+            </div>
+          ))}
+        </div>
+
+        {/* Service Features Grid */}
+        <div className={`
+          mt-20
+          grid
+          sm:grid-cols-2
+          lg:grid-cols-4
+          gap-6
+          transition-all
+          duration-1000
+          delay-500
+          ${headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
+        `}>
+          {[
+            { number: '12+', label: 'Services Offered', icon: '🔧' },
+            { number: '100%', label: 'Quality Assured', icon: '✓' },
+            { number: 'UAE', label: 'Wide Coverage', icon: '📍' },
+            { number: '24/7', label: 'Support Available', icon: '💬' }
+          ].map((feature, index) => (
+            <div
+              key={index}
+              className="
+                group
+                text-center
+                p-6
+                bg-white
+                border-2
+                border-[#E8E4DC]
+                hover:border-[#B39A70]
+                transition-all
+                duration-500
+                hover:shadow-lg
+                hover:-translate-y-1
+              "
+            >
+              <div className="
+                text-4xl
+                mb-3
+                transform
+                group-hover:scale-110
+                transition-transform
+                duration-300
+              ">
+                {feature.icon}
+              </div>
+              
+              <div className="
+                font-display
+                text-3xl
+                text-[#171717]
+                mb-2
+                group-hover:text-[#B39A70]
+                transition-colors
+                duration-300
+              ">
+                {feature.number}
+              </div>
+              
+              <div className="
+                text-[#77736C]
+                text-xs
+                tracking-[0.2em]
+                uppercase
+              ">
+                {feature.label}
               </div>
             </div>
           ))}

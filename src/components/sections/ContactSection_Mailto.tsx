@@ -29,8 +29,6 @@ export default function ContactSection() {
   })
 
   const [errors, setErrors] = useState<FormErrors>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {}
@@ -61,37 +59,31 @@ export default function ContactSection() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
 
     if (!validateForm()) {
       return
     }
 
-    setIsSubmitting(true)
-    setSubmitStatus('idle')
+    // Compose email using mailto
+    const subject = `Contact Form Submission - ${formData.name}`
+    const body = `
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Company: ${formData.company || 'N/A'}
 
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      
-      console.log('Form submitted:', formData)
-      setSubmitStatus('success')
-      
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        message: '',
-      })
-      setErrors({})
-    } catch (error) {
-      setSubmitStatus('error')
-    } finally {
-      setIsSubmitting(false)
-    }
+Message:
+${formData.message}
+
+---
+Sent from The Glass Doctor website contact form
+    `.trim()
+
+    // Open default email client
+    const mailtoLink = `mailto:info@theglassdoctor.ae?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.location.href = mailtoLink
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -278,7 +270,7 @@ export default function ContactSection() {
                     transition-colors
                     duration-300
                   `}
-                  placeholder="+971 **********"
+                  placeholder="+971 50 123 4567"
                 />
                 {errors.phone && (
                   <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
@@ -345,7 +337,6 @@ export default function ContactSection() {
 
               <button
                 type="submit"
-                disabled={isSubmitting}
                 className="
                   w-full
                   bg-[#B39A70]
@@ -359,27 +350,17 @@ export default function ContactSection() {
                   transition-all
                   duration-300
                   font-medium
-                  disabled:opacity-50
-                  disabled:cursor-not-allowed
                   hover:shadow-xl
                   hover:shadow-[#B39A70]/30
                   active:scale-95
                 "
               >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+                Send Email
               </button>
 
-              {submitStatus === 'success' && (
-                <div className="text-[#B39A70] text-sm text-center animate-in fade-in duration-500">
-                  Thank you! We'll get back to you soon.
-                </div>
-              )}
-
-              {submitStatus === 'error' && (
-                <div className="text-red-500 text-sm text-center animate-in fade-in duration-500">
-                  Something went wrong. Please try again.
-                </div>
-              )}
+              <p className="text-[#77736C] text-xs text-center">
+                This will open your email client with the form details pre-filled
+              </p>
             </form>
           </div>
 

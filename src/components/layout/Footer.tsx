@@ -23,7 +23,6 @@ const FOOTER_NAV = [
   'Home',
   'About Us',
   'Products',
-  'Projects',
   'Services',
   'Contact',
 ]

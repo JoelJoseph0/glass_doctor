@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import emailjs from '@emailjs/browser'
 
 interface FormData {
   name: string
@@ -72,22 +73,53 @@ export default function ContactSection() {
     setSubmitStatus('idle')
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      
-      console.log('Form submitted:', formData)
-      setSubmitStatus('success')
-      
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        message: '',
-      })
-      setErrors({})
+      // EmailJS configuration
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+
+      // Check if EmailJS is configured
+      if (!serviceId || !templateId || !publicKey) {
+        console.error('EmailJS not configured. Please set up .env file with credentials.')
+        throw new Error('Email service not configured')
+      }
+
+      // Prepare template parameters
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        from_phone: formData.phone,
+        from_company: formData.company || 'N/A',
+        message: formData.message,
+        to_email: 'info@theglassdoctor.ae',
+      }
+
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams,
+        publicKey
+      )
+
+      if (response.status === 200) {
+        console.log('Email sent successfully:', response)
+        setSubmitStatus('success')
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          company: '',
+          message: '',
+        })
+        setErrors({})
+      } else {
+        throw new Error('Failed to send email')
+      }
     } catch (error) {
+      console.error('Email sending failed:', error)
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)
@@ -278,7 +310,7 @@ export default function ContactSection() {
                     transition-colors
                     duration-300
                   `}
-                  placeholder="+971 **********"
+                  placeholder="+971 50 123 4567"
                 />
                 {errors.phone && (
                   <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
@@ -371,13 +403,13 @@ export default function ContactSection() {
 
               {submitStatus === 'success' && (
                 <div className="text-[#B39A70] text-sm text-center animate-in fade-in duration-500">
-                  Thank you! We'll get back to you soon.
+                  ✓ Thank you! We'll get back to you soon.
                 </div>
               )}
 
               {submitStatus === 'error' && (
                 <div className="text-red-500 text-sm text-center animate-in fade-in duration-500">
-                  Something went wrong. Please try again.
+                  ✗ Failed to send message. Please try again or email us directly at info@theglassdoctor.ae
                 </div>
               )}
             </form>

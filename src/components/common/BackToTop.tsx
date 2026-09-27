@@ -36,29 +36,36 @@ export default function BackToTop() {
         z-40
         w-12
         h-12
-        bg-[#B39A70]
+        bg-gradient-to-br from-[#B39A70] to-[#9d865e]
         text-[#171717]
         flex
         items-center
         justify-center
-        shadow-xl
-        shadow-[#171717]/20
+        shadow-2xl
+        shadow-[#B39A70]/40
         transition-all
         duration-500
-        hover:bg-[#F8F7F4]
-        hover:shadow-2xl
-        hover:shadow-[#B39A70]/30
-        active:scale-90
+        hover:shadow-3xl
+        hover:shadow-[#B39A70]/60
+        hover:scale-110
+        active:scale-95
+        border-2
+        border-[#F8F7F4]/20
+        backdrop-blur-sm
+        group
         ${isVisible ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'}
       `}
       aria-label="Back to top"
     >
+      {/* Glow effect */}
+      <div className="absolute inset-0 bg-[#B39A70]/0 group-hover:bg-[#B39A70]/30 blur-xl transition-all duration-300 rounded-full" />
+      
       <svg
         width="20"
         height="20"
         viewBox="0 0 20 20"
         fill="none"
-        className="transform rotate-180"
+        className="transform rotate-180 group-hover:-translate-y-0.5 transition-transform duration-300 relative z-10"
       >
         <path
           d="M10 4V16M10 16L4 10M10 16L16 10"
@@ -68,6 +75,9 @@ export default function BackToTop() {
           strokeLinejoin="round"
         />
       </svg>
+      
+      {/* Rotating border on hover */}
+      <div className="absolute inset-0 rounded-full border-2 border-[#F8F7F4]/0 group-hover:border-[#F8F7F4]/40 group-hover:rotate-180 transition-all duration-700" />
     </button>
   )
 }

@@ -9,8 +9,12 @@ export default function IntroSection() {
   return (
     <section
       id="about"
-      className="py-24 md:py-32 bg-[#F8F7F4]"
+      className="py-24 md:py-32 bg-[#F8F7F4] relative overflow-hidden"
     >
+      {/* Decorative background elements */}
+      <div className="absolute top-20 right-0 w-96 h-96 bg-[#E8E4DC]/40 rounded-full blur-[120px] -z-10" />
+      <div className="absolute bottom-20 left-0 w-80 h-80 bg-[#B39A70]/10 rounded-full blur-[100px] -z-10" />
+      
       <div className="max-w-[1440px] mx-auto px-6 md:px-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
@@ -23,7 +27,19 @@ export default function IntroSection() {
               ${imageVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}
             `}
           >
-            <div className="overflow-hidden">
+            {/* Decorative frame corners */}
+            <div className="absolute -top-3 -left-3 w-8 h-8 border-t-2 border-l-2 border-[#B39A70] opacity-0 animate-in fade-in slide-in-from-top-4 duration-700 delay-300" style={{ animationFillMode: imageVisible ? 'forwards' : 'none' }} />
+            <div className="absolute -top-3 -right-3 w-8 h-8 border-t-2 border-r-2 border-[#B39A70] opacity-0 animate-in fade-in slide-in-from-top-4 duration-700 delay-400" style={{ animationFillMode: imageVisible ? 'forwards' : 'none' }} />
+            <div className="absolute -bottom-3 -left-3 w-8 h-8 border-b-2 border-l-2 border-[#B39A70] opacity-0 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500" style={{ animationFillMode: imageVisible ? 'forwards' : 'none' }} />
+            <div className="absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-[#B39A70] opacity-0 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-600" style={{ animationFillMode: imageVisible ? 'forwards' : 'none' }} />
+            
+            <div className="overflow-hidden relative group">
+              {/* Image reveal overlay */}
+              <div className={`
+                absolute inset-0 bg-[#171717] z-10 transition-transform duration-1000 delay-200
+                ${imageVisible ? 'translate-x-full' : 'translate-x-0'}
+              `} />
+              
               <LazyImage
                 src="/ProductsImage/img20.jpg"
                 alt="Modern glass interior"
@@ -32,42 +48,58 @@ export default function IntroSection() {
                   h-[520px]
                   md:h-[680px]
                   object-cover
-                  hover:scale-[1.03]
+                  group-hover:scale-105
                   transition-transform
                   duration-700
                 "
               />
+              
+              {/* Gradient overlay on hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#171717]/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
 
+            {/* Enhanced decorative square */}
             <div className="
               absolute
               -bottom-5
               -right-5
               w-44
               h-44
-              bg-[#E8E4DC]
+              bg-gradient-to-br from-[#E8E4DC] to-[#D8D4CC]
               -z-10
+              transform rotate-6
             " />
 
+            {/* Enhanced experience badge */}
             <div className="
               absolute
               top-8
               -right-4
               md:-right-8
-              bg-[#171717]
+              bg-gradient-to-br from-[#171717] to-[#2a2a2a]
               px-6 py-5
+              shadow-2xl
+              shadow-[#171717]/40
+              border border-[#B39A70]/20
+              group
+              hover:scale-105
+              transition-all
+              duration-300
             ">
               <div className="
                 font-display
                 text-[#B39A70]
                 text-4xl
                 leading-none
+                group-hover:text-[#E8E4DC]
+                transition-colors
+                duration-300
               ">
-                10+
+                1+
               </div>
 
               <div className="
-                text-[#77736C]
+                text-[#E8E4DC]
                 text-[9px]
                 tracking-[0.25em]
                 uppercase
@@ -75,6 +107,9 @@ export default function IntroSection() {
               ">
                 Years
               </div>
+              
+              {/* Badge glow */}
+              <div className="absolute inset-0 bg-[#B39A70]/0 group-hover:bg-[#B39A70]/10 blur-xl transition-all duration-300 -z-10" />
             </div>
           </div>
 
@@ -88,16 +123,19 @@ export default function IntroSection() {
               ${contentVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}
             `}
           >
-            <div className="flex items-center gap-4 mb-7">
-              <div className="w-8 h-px bg-[#B39A70]" />
+            <div className="flex items-center gap-4 mb-7 group">
+              <div className="w-8 h-px bg-gradient-to-r from-[#B39A70] to-transparent" />
 
               <span className="
                 text-[#B39A70]
                 text-[9px]
                 tracking-[0.42em]
                 uppercase
+                font-medium
+                relative
               ">
                 Who We Are
+                <span className="absolute inset-0 bg-[#B39A70]/0 group-hover:bg-[#B39A70]/10 blur-xl transition-all duration-300 -z-10" />
               </span>
             </div>
 
@@ -108,38 +146,60 @@ export default function IntroSection() {
               md:text-5xl
               leading-[1.08]
               mb-8
+              group
             ">
-              Precision in Glass.
+              <span className="inline-block hover:text-[#B39A70] transition-colors duration-300">
+                Precision in Glass.
+              </span>
               <br />
-              <em>Excellence in Every Detail</em>
+              <em className="inline-block hover:text-[#B39A70] transition-colors duration-300">
+                Excellence in Every Detail
+              </em>
+              
+              {/* Decorative line */}
+              <div className="mt-3 w-16 h-0.5 bg-gradient-to-r from-[#B39A70] to-transparent" />
             </h2>
 
-            <p className="
-              text-[#77736C]
-              text-sm
-              md:text-base
-              leading-relaxed
-              mb-5
-            ">
-              The Glass Doctor is a Sharjah-based glass and architectural
-              solutions company serving clients across the UAE. We specialize
-              in transforming glass and aluminum into sophisticated, functional,
-              and durable solutions for residential, commercial, and architectural
-              projects.
-            </p>
+            <div className="space-y-5 mb-10">
+              <p className="
+                text-[#77736C]
+                text-sm
+                md:text-base
+                leading-relaxed
+                relative
+                pl-4
+                border-l-2
+                border-[#B39A70]/20
+                hover:border-[#B39A70]/60
+                transition-all
+                duration-300
+              ">
+                The Glass Doctor is a Sharjah-based glass and architectural
+                solutions company serving clients across the UAE. We specialize
+                in transforming glass and aluminum into sophisticated, functional,
+                and durable solutions for residential, commercial, and architectural
+                projects.
+              </p>
 
-            <p className="
-              text-[#77736C]
-              text-sm
-              md:text-base
-              leading-relaxed
-              mb-10
-            ">
-              From precision glass tempering, bending, lamination, polishing and
-              mitering to partitions, smart glass, frosting, sandblasting, back
-              painting and acid etching, our expertise combines advanced technology
-              with meticulous craftsmanship.
-            </p>
+              <p className="
+                text-[#77736C]
+                text-sm
+                md:text-base
+                leading-relaxed
+                relative
+                pl-4
+                border-l-2
+                border-[#E8E4DC]
+                hover:border-[#B39A70]/60
+                transition-all
+                duration-300
+              ">
+                From precision glass tempering, bending, lamination, polishing and
+                mitering to partitions, smart glass, frosting, sandblasting, back
+                painting and acid etching, our expertise combines advanced technology
+                with meticulous craftsmanship.
+              </p>
+            </div>
 
             <a
               href="#contact"
@@ -151,16 +211,24 @@ export default function IntroSection() {
                 text-[10px]
                 tracking-[0.25em]
                 uppercase
-                border-b
+                border-b-2
                 border-[#B39A70]
                 pb-1
                 hover:text-[#B39A70]
-                transition-colors
+                hover:gap-4
+                transition-all
                 duration-300
+                group
+                relative
               "
             >
               Discover Our Story
-              <ArrowRight />
+              <span className="group-hover:translate-x-1 transition-transform duration-300">
+                <ArrowRight />
+              </span>
+              
+              {/* Animated underline */}
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#B39A70] to-[#E8E4DC] group-hover:w-full transition-all duration-500" />
             </a>
           </div>
 
