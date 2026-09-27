@@ -56,7 +56,7 @@ export default function HeroSection() {
       </div>
 
       <LazyImage
-        src="./ProductsImage/img19.jpg"
+        src={`${import.meta.env.BASE_URL}ProductsImage/img19.jpg`}
         alt="Modern glass facade"
         className={`
           absolute inset-0

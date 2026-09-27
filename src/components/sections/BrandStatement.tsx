@@ -12,7 +12,7 @@ export default function BrandStatement() {
       bg-[#171717]
     ">
       <LazyImage
-        src="./ProductsImage/img21.jpg"
+        src={`${import.meta.env.BASE_URL}ProductsImage/img21.jpg`}
         alt="Curved architectural glass building"
         className="
           absolute

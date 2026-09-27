@@ -123,7 +123,7 @@ export default function ProductsSection() {
               {/* Image Section */}
               <div className="relative h-full">
                 <LazyImage
-                  src={product.image}
+                  src={`${import.meta.env.BASE_URL}${product.image}`}
                   alt={product.name}
                   className="
                     w-full

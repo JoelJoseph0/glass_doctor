@@ -149,7 +149,7 @@ export default function ProjectsSection() {
                   bg-[#D8D4CC]
                 ">
                   <LazyImage
-                    src={project.image}
+                    src={`${import.meta.env.BASE_URL}${project.image}`}
                     alt={project.name}
                     className="
                       w-full

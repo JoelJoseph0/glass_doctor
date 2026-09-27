@@ -11,7 +11,7 @@ export const PRODUCTS: Product[] = [
     description:
       'Advanced tempering and precision bending for safety and durability.',
     image:
-      './ProductsImage/img1.jpg',
+      'ProductsImage/img1.jpg',
     tall: true,
   },
   {
@@ -19,7 +19,7 @@ export const PRODUCTS: Product[] = [
     description:
       'Elegant partitions for offices and residential spaces.',
     image:
-      './ProductsImage/img2.jpg',
+      'ProductsImage/img2.jpg',
     tall: false,
   },
   {
@@ -27,7 +27,7 @@ export const PRODUCTS: Product[] = [
     description:
       'Innovative smart glass technology for modern spaces.',
     image:
-      './ProductsImage/img3.jpg',
+      'ProductsImage/img3.jpg',
     tall: false,
   },
   {
@@ -35,7 +35,7 @@ export const PRODUCTS: Product[] = [
     description:
       'Premium aluminum solutions combining elegance and performance.',
     image:
-      './ProductsImage/img4.jpg',
+      'ProductsImage/img4.jpg',
     tall: true,
   },
   {
@@ -43,7 +43,7 @@ export const PRODUCTS: Product[] = [
     description:
       'High-performance curtain wall systems for modern buildings.',
     image:
-      './ProductsImage/img5.jpg',
+      'ProductsImage/img5.jpg',
     tall: false,
   },
   {
@@ -51,7 +51,7 @@ export const PRODUCTS: Product[] = [
     description:
       'Lamination, polishing, frosting, sandblasting & acid etching.',
     image:
-      './ProductsImage/img6.jpg',
+      'ProductsImage/img6.jpg',
     tall: false,
   },
 ]

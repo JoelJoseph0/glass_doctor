@@ -111,7 +111,7 @@ export default function ApplicationsSection() {
                 {/* Image */}
                 <div className="relative h-full">
                   <LazyImage
-                    src={application.image}
+                    src={`${import.meta.env.BASE_URL}${application.image}`}
                     alt={application.name}
                     className="
                       w-full
