@@ -9,7 +9,7 @@ export default function Logo({
     <div className="flex items-center gap-3">
       <div className="relative bg-white rounded-sm px-2 py-1">
         <img 
-          src="/Logo.png" 
+          src="./Logo.png" 
           alt="The Glass Doctor Logo" 
           className="h-10 w-auto object-contain"
         />

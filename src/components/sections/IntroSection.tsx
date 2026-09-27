@@ -41,7 +41,7 @@ export default function IntroSection() {
               `} />
               
               <LazyImage
-                src="/ProductsImage/img20.jpg"
+                src="./ProductsImage/img20.jpg"
                 alt="Modern glass interior"
                 className="
                   w-full
