@@ -209,9 +209,9 @@ export default function ContactSection() {
                   Hours
                 </div>
                 <div className="text-[#F8F7F4] text-base leading-relaxed">
-                  Saturday - Thursday: 9:00 AM - 6:00 PM
+                  Monday - Saturday: 8:00 AM - 5:00 PM
                   <br />
-                  Friday: Closed
+                  Sunday: Closed
                 </div>
               </div>
             </div>
