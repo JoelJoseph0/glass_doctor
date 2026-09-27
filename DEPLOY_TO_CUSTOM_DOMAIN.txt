@@ -1,0 +1,59 @@
+===============================================
+CUSTOM DOMAIN DEPLOYMENT - QUICK GUIDE
+===============================================
+
+DOMAIN: theglassdoctor.ae
+DNS STATUS: ✅ Configured and verified
+
+===============================================
+
+CHANGE MADE:
+
+File: vite.config.ts
+- base: '/glass_doctor/'  ❌ (old)
++ base: '/'               ✅ (new)
+
+===============================================
+
+RUN THESE COMMANDS:
+
+1. npm run build
+
+2. git add vite.config.ts
+
+3. git commit -m "Deploy to custom domain: change base to /"
+
+4. git push
+
+===============================================
+
+WAIT: 3-5 minutes for GitHub Actions
+
+===============================================
+
+VERIFY:
+
+Visit: https://theglassdoctor.ae/
+
+✅ Website loads
+✅ All images show
+✅ Logo displays
+✅ HTTPS works
+✅ No errors
+
+===============================================
+
+ALTERNATIVE TEST URLS:
+
+https://www.theglassdoctor.ae/ (should redirect)
+https://theglassdoctor.ae/ (primary)
+
+===============================================
+
+TIME: ~5 minutes total
+
+===============================================
+
+RESULT: Professional website live on custom domain! 🎉
+
+===============================================
