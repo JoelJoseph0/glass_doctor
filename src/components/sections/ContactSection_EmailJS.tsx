@@ -78,32 +78,38 @@ export default function ContactSection() {
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 
-      // Check if EmailJS is configured
+      // Check if EmailJS is configured (without exposing values)
+      const configStatus = {
+        serviceConfigured: Boolean(serviceId),
+        templateConfigured: Boolean(templateId),
+        publicKeyConfigured: Boolean(publicKey),
+      }
+
       if (!serviceId || !templateId || !publicKey) {
-        console.error('EmailJS not configured. Please set up .env file with credentials.')
+        console.error('EmailJS configuration incomplete:', configStatus)
         throw new Error('Email service not configured')
       }
 
-      // Prepare template parameters
+      // Prepare template parameters - matches EmailJS template exactly
       const templateParams = {
         from_name: formData.name,
         from_email: formData.email,
         from_phone: formData.phone,
         from_company: formData.company || 'N/A',
         message: formData.message,
-        to_email: 'info@theglassdoctor.ae',
       }
 
-      // Send email using EmailJS
+      // Send email using EmailJS with correct API syntax
       const response = await emailjs.send(
         serviceId,
         templateId,
         templateParams,
-        publicKey
+        {
+          publicKey: publicKey,
+        }
       )
 
       if (response.status === 200) {
-        console.log('Email sent successfully:', response)
         setSubmitStatus('success')
         
         // Reset form
@@ -118,8 +124,12 @@ export default function ContactSection() {
       } else {
         throw new Error('Failed to send email')
       }
-    } catch (error) {
-      console.error('Email sending failed:', error)
+    } catch (error: any) {
+      console.error('Email sending failed:', {
+        message: error?.message || 'Unknown error',
+        text: error?.text || 'No error text',
+        status: error?.status || 'No status',
+      })
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)
@@ -185,12 +195,20 @@ export default function ContactSection() {
                 <div className="text-[#B39A70] text-[8px] tracking-[0.28em] uppercase mb-2">
                   Email
                 </div>
-                <a
-                  href="mailto:info@theglassdoctor.ae"
-                  className="text-[#F8F7F4] text-lg hover:text-[#B39A70] transition-colors duration-300"
-                >
-                  info@theglassdoctor.ae
-                </a>
+                <div className="space-y-1">
+                  <a
+                    href="mailto:sales@theglassdoctor.ae"
+                    className="block text-[#F8F7F4] text-base hover:text-[#B39A70] transition-colors duration-300"
+                  >
+                    sales@theglassdoctor.ae
+                  </a>
+                  <a
+                    href="mailto:accounts@theglassdoctor.ae"
+                    className="block text-[#F8F7F4] text-base hover:text-[#B39A70] transition-colors duration-300"
+                  >
+                    accounts@theglassdoctor.ae
+                  </a>
+                </div>
               </div>
 
               <div>
@@ -409,7 +427,7 @@ export default function ContactSection() {
 
               {submitStatus === 'error' && (
                 <div className="text-red-500 text-sm text-center animate-in fade-in duration-500">
-                  ✗ Failed to send message. Please try again or email us directly at info@theglassdoctor.ae
+                  ✗ Failed to send message. Please try again or email us directly at sales@theglassdoctor.ae
                 </div>
               )}
             </form>
