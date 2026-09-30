@@ -39,7 +39,7 @@ export const PRODUCTS: Product[] = [
     tall: true,
   },
   {
-    name: 'Curtain Walls',
+    name: 'Curtain Walls & Aluminium Works',
     description:
       'High-performance curtain wall systems for modern buildings.',
     image:

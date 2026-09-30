@@ -16,8 +16,8 @@ const NAV_LINKS = [
     href: '#products',
   },
   {
-    label: 'Applications',
-    href: '#applications',
+    label: 'Gallery',
+    href: '#gallery',
   },
   {
     label: 'Services',

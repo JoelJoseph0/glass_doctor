@@ -32,7 +32,7 @@ const FOOTER_PRODUCTS = [
   'Glass Partitions',
   'Smart Glasses',
   'Aluminum Windows & Doors',
-  'Curtain Walls',
+  'Curtain Walls & Aluminium Works',
   'Glass Processing',
 ]
 

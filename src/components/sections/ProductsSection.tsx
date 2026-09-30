@@ -230,7 +230,7 @@ export default function ProductsSection() {
                   </h3>
 
                   {/* Description */}
-                  <p className="
+                  <p className={`
                     text-[#D0CCC4]
                     text-sm
                     leading-relaxed
@@ -239,7 +239,7 @@ export default function ProductsSection() {
                     transition-all
                     duration-500
                     ${activeProduct === index ? 'opacity-100 translate-y-0' : 'opacity-70 translate-y-2'}
-                  ">
+                  `}>
                     {product.description}
                   </p>
 
