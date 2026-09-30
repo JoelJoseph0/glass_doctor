@@ -1,0 +1,64 @@
+============================================
+FIX 400 ERROR - Invalid Public Key
+============================================
+
+ERROR MESSAGE:
+"The Public Key is invalid"
+
+CAUSE:
+The .env file has: placeholder_for_build_test
+This is NOT a real public key!
+
+============================================
+QUICK FIX (2 minutes):
+============================================
+
+1. Go to EmailJS Dashboard:
+   https://dashboard.emailjs.com/admin/account
+
+2. Login to your account
+
+3. Click your name → Account → General
+
+4. Copy your PUBLIC KEY (looks like: aBcD123eFgH456)
+
+5. Edit this file:
+   d:\Freelance\vitrum-glass\.env
+
+6. Replace this line:
+   VITE_EMAILJS_PUBLIC_KEY=placeholder_for_build_test
+   
+   With:
+   VITE_EMAILJS_PUBLIC_KEY=YOUR_REAL_KEY_HERE
+
+7. Save the file
+
+8. Restart dev server:
+   - Stop: Ctrl+C
+   - Start: npm run dev
+
+9. Test again - should work! ✅
+
+============================================
+FOR PRODUCTION (GitHub Pages):
+============================================
+
+Also update GitHub Secret:
+
+1. https://github.com/JoelJoseph0/glass_doctor
+2. Settings → Secrets → Actions
+3. Find: VITE_EMAILJS_PUBLIC_KEY
+4. Update with your real public key
+5. Save
+
+Then push your code:
+git push origin main
+
+============================================
+VERIFIED WORKING:
+============================================
+✅ Service ID: service_upebuf6
+✅ Template ID: template_wxq8ase
+❌ Public Key: placeholder_for_build_test (NEEDS REPLACING)
+
+============================================

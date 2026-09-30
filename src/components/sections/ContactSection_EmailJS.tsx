@@ -99,6 +99,14 @@ export default function ContactSection() {
         message: formData.message,
       }
 
+      // Log what we're sending (for debugging)
+      console.log('Sending email with params:', {
+        service: 'configured',
+        template: 'configured',
+        params: templateParams,
+        publicKey: 'configured'
+      })
+
       // Send email using EmailJS with correct API syntax
       const response = await emailjs.send(
         serviceId,
@@ -125,11 +133,21 @@ export default function ContactSection() {
         throw new Error('Failed to send email')
       }
     } catch (error: any) {
-      console.error('Email sending failed:', {
+      // Capture detailed EmailJS error information
+      const errorDetails = {
         message: error?.message || 'Unknown error',
         text: error?.text || 'No error text',
         status: error?.status || 'No status',
-      })
+        name: error?.name || 'No error name',
+      }
+      
+      console.error('Email sending failed - Full error details:', errorDetails)
+      
+      // If there's a response body, log it (EmailJS errors usually have a 'text' property)
+      if (error?.text) {
+        console.error('EmailJS Error Message:', error.text)
+      }
+      
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)
