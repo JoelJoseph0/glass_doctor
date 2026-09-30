@@ -21,6 +21,10 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       'ProductGallery/Pr1/img1.1.jpg',
       'ProductGallery/Pr1/img1.2.jpg',
       'ProductGallery/Pr1/img1.3.jpg',
+      'ProductGallery/Pr1/img1.4.jpg',
+      'ProductGallery/Pr1/img1.5.jpg',
+      'ProductGallery/Pr1/img1.6.jpg',
+      'ProductGallery/Pr1/img1.7.jpg',
     ],
   },
   {
@@ -51,7 +55,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
   },
   {
     id: 'pr3',
-    title: 'Elevated Glasses',
+    title: 'Elevator Glasses',
     description: 'Premium elevated glass installations showcasing architectural excellence and innovative glass engineering solutions',
     category: 'Commercial',
     location: 'UAE',

@@ -20,7 +20,7 @@ export default function GallerySection({ onProjectClick }: GallerySectionProps) 
     <>
       <section
         id="gallery"
-        className="py-24 md:py-32 bg-gradient-to-b from-[#E8E4DC] to-[#F8F7F4] relative overflow-hidden"
+        className="py-16 md:py-20 bg-gradient-to-b from-[#E8E4DC] to-[#F8F7F4] relative overflow-hidden"
       >
         {/* Decorative Background */}
         <div className="absolute inset-0 opacity-[0.02]"

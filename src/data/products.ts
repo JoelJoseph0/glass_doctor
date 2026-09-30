@@ -31,7 +31,7 @@ export const PRODUCTS: Product[] = [
     tall: false,
   },
   {
-    name: 'Aluminum Windows & Doors',
+    name: 'Double Glazed Unit',
     description:
       'Premium aluminum solutions combining elegance and performance.',
     image:
@@ -47,11 +47,11 @@ export const PRODUCTS: Product[] = [
     tall: false,
   },
   {
-    name: 'Glass Processing Services',
+    name: 'Laminated Glasses',
     description:
-      'Lamination, polishing, frosting, sandblasting & acid etching.',
+      'High-security safety glass with superior impact resistance and UV protection.',
     image:
-      'ProductsImage/img6.jpg',
+      'Laminated glass.jpg',
     tall: false,
   },
 ]

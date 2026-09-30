@@ -24,6 +24,13 @@ export default function App() {
 
   const handleBackToGallery = () => {
     setSelectedProjectId(null)
+    // Scroll to gallery section after state update
+    setTimeout(() => {
+      const gallerySection = document.getElementById('gallery')
+      if (gallerySection) {
+        gallerySection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }, 100)
   }
 
   // Show project detail page if a project is selected

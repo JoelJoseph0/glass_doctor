@@ -64,8 +64,9 @@ export function getServiceIdFromProductName(productName: string): string {
     'Glass Tempering & Bending': 'glass-tempering-bending',
     'Glass Partitions': 'glass-partitions',
     'Smart Glasses': 'smart-glass',
-    'Aluminum Windows & Doors': 'double-glazed-units',
+    'Double Glazed Unit': 'double-glazed-units',
     'Curtain Walls': 'double-glazed-units',
+    'Laminated Glasses': 'glass-lamination',
     'Glass Processing Services': 'glass-processing',
   }
   

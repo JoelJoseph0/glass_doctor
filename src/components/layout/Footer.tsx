@@ -31,7 +31,7 @@ const FOOTER_PRODUCTS = [
   'Glass Tempering & Bending',
   'Glass Partitions',
   'Smart Glasses',
-  'Aluminum Windows & Doors',
+  'Double Glazed Unit',
   'Curtain Walls & Aluminium Works',
   'Glass Processing',
 ]
