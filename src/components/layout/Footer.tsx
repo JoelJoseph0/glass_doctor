@@ -214,16 +214,34 @@ export default function Footer() {
                   Email
                 </div>
 
-                <a
-                  href="mailto:info@theglassdoctor.ae"
-                  className="
-                    text-[#F8F7F4]
-                    text-sm
-                    hover:text-[#B39A70]
-                  "
-                >
-                  info@theglassdoctor.ae
-                </a>
+                <div className="space-y-1">
+                  <a
+                    href="mailto:sales@theglassdoctor.ae"
+                    className="
+                      block
+                      text-[#F8F7F4]
+                      text-sm
+                      hover:text-[#B39A70]
+                      transition-colors
+                      duration-300
+                    "
+                  >
+                    sales@theglassdoctor.ae
+                  </a>
+                  <a
+                    href="mailto:accounts@theglassdoctor.ae"
+                    className="
+                      block
+                      text-[#F8F7F4]
+                      text-sm
+                      hover:text-[#B39A70]
+                      transition-colors
+                      duration-300
+                    "
+                  >
+                    accounts@theglassdoctor.ae
+                  </a>
+                </div>
               </div>
 
               <div>

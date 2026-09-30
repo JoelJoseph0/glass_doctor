@@ -72,21 +72,44 @@ export default function ContactSection() {
     setSubmitStatus('idle')
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      // Prepare email content
+      const subject = `New Inquiry from ${formData.name}${formData.company ? ` - ${formData.company}` : ''}`
+      const body = `
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Company: ${formData.company || 'N/A'}
+
+Project Details:
+${formData.message}
+
+---
+This email was sent from The Glass Doctor website contact form.
+      `.trim()
+
+      // Create mailto link with both recipients
+      const mailtoLink = `mailto:sales@theglassdoctor.ae,accounts@theglassdoctor.ae?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
       
-      console.log('Form submitted:', formData)
+      // Open email client
+      window.location.href = mailtoLink
+      
+      // Simulate processing
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      
       setSubmitStatus('success')
       
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        message: '',
-      })
-      setErrors({})
+      // Reset form after successful submission
+      setTimeout(() => {
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          company: '',
+          message: '',
+        })
+        setErrors({})
+        setSubmitStatus('idle')
+      }, 3000)
     } catch (error) {
       setSubmitStatus('error')
     } finally {
@@ -153,12 +176,20 @@ export default function ContactSection() {
                 <div className="text-[#B39A70] text-[8px] tracking-[0.28em] uppercase mb-2">
                   Email
                 </div>
-                <a
-                  href="mailto:info@theglassdoctor.ae"
-                  className="text-[#F8F7F4] text-lg hover:text-[#B39A70] transition-colors duration-300"
-                >
-                  info@theglassdoctor.ae
-                </a>
+                <div className="space-y-1">
+                  <a
+                    href="mailto:sales@theglassdoctor.ae"
+                    className="block text-[#F8F7F4] text-base hover:text-[#B39A70] transition-colors duration-300"
+                  >
+                    sales@theglassdoctor.ae
+                  </a>
+                  <a
+                    href="mailto:accounts@theglassdoctor.ae"
+                    className="block text-[#F8F7F4] text-base hover:text-[#B39A70] transition-colors duration-300"
+                  >
+                    accounts@theglassdoctor.ae
+                  </a>
+                </div>
               </div>
 
               <div>
@@ -371,13 +402,13 @@ export default function ContactSection() {
 
               {submitStatus === 'success' && (
                 <div className="text-[#B39A70] text-sm text-center animate-in fade-in duration-500">
-                  Thank you! We'll get back to you soon.
+                  ✓ Email client opened! Please send the email to complete your inquiry.
                 </div>
               )}
 
               {submitStatus === 'error' && (
                 <div className="text-red-500 text-sm text-center animate-in fade-in duration-500">
-                  Something went wrong. Please try again.
+                  ✗ Something went wrong. Please email us directly at sales@theglassdoctor.ae
                 </div>
               )}
             </form>

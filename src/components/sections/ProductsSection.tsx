@@ -3,13 +3,27 @@ import ArrowRight from '@/components/common/ArrowRight'
 import { PRODUCTS } from '@/data/products'
 import LazyImage from '@/components/common/LazyImage'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
+import { getServiceIdFromProductName, SERVICE_DETAILS } from '@/data/serviceDetails'
+import ServiceModal from '@/components/common/ServiceModal'
 
 export default function ProductsSection() {
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal()
   const [activeProduct, setActiveProduct] = useState<number | null>(null)
+  const [selectedService, setSelectedService] = useState<typeof SERVICE_DETAILS[0] | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleExploreService = (productName: string) => {
+    const serviceId = getServiceIdFromProductName(productName)
+    const service = SERVICE_DETAILS.find(s => s.id === serviceId)
+    if (service) {
+      setSelectedService(service)
+      setIsModalOpen(true)
+    }
+  }
 
   return (
-    <section
+    <>
+      <section
       id="products"
       className="py-24 md:py-32 bg-[#F8F7F4] relative overflow-hidden"
     >
@@ -230,20 +244,26 @@ export default function ProductsSection() {
                   </p>
 
                   {/* Learn More Button */}
-                  <div className="
-                    flex
-                    items-center
-                    gap-2
-                    text-[#B39A70]
-                    text-[10px]
-                    tracking-[0.22em]
-                    uppercase
-                    font-semibold
-                    transform
-                    transition-all
-                    duration-300
-                    group-hover:gap-4
-                  ">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleExploreService(product.name)
+                    }}
+                    className="
+                      flex
+                      items-center
+                      gap-2
+                      text-[#B39A70]
+                      text-[10px]
+                      tracking-[0.22em]
+                      uppercase
+                      font-semibold
+                      transform
+                      transition-all
+                      duration-300
+                      group-hover:gap-4
+                    "
+                  >
                     <span className="
                       py-2
                       px-4
@@ -261,7 +281,7 @@ export default function ProductsSection() {
                       transition-transform
                       duration-300
                     " />
-                  </div>
+                  </button>
                 </div>
 
                 {/* Hover Border Effect */}
@@ -355,5 +375,12 @@ export default function ProductsSection() {
 
       </div>
     </section>
+
+    <ServiceModal 
+      service={selectedService} 
+      isOpen={isModalOpen} 
+      onClose={() => setIsModalOpen(false)} 
+    />
+    </>
   )
 }
