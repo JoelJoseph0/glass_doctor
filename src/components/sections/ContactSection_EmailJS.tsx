@@ -99,14 +99,6 @@ export default function ContactSection() {
         message: formData.message,
       }
 
-      // Log what we're sending (for debugging)
-      console.log('Sending email with params:', {
-        service: 'configured',
-        template: 'configured',
-        params: templateParams,
-        publicKey: 'configured'
-      })
-
       // Send email using EmailJS with correct API syntax
       const response = await emailjs.send(
         serviceId,

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import HeroSection from '@/components/sections/HeroSection'
@@ -17,31 +17,64 @@ import ProjectDetailPage from '@/components/pages/ProjectDetailPage'
 
 export default function App() {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
+  const pendingScroll = useRef<string | null>(null)
+
+  // Keep the browser Back/Forward buttons in sync with the open project
+  useEffect(() => {
+    const handlePopState = (e: PopStateEvent) => {
+      pendingScroll.current ??= '#gallery'
+      setSelectedProjectId(e.state?.projectId ?? null)
+    }
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
+  // After returning to the main page, scroll to the requested section
+  useEffect(() => {
+    if (selectedProjectId !== null || !pendingScroll.current) return
+    const target = pendingScroll.current
+    pendingScroll.current = null
+    const timer = setTimeout(() => {
+      document.querySelector(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
+    return () => clearTimeout(timer)
+  }, [selectedProjectId])
 
   const handleProjectClick = (projectId: string) => {
+    window.history.pushState({ projectId }, '')
     setSelectedProjectId(projectId)
   }
 
-  const handleBackToGallery = () => {
-    setSelectedProjectId(null)
-    // Scroll to gallery section after state update
-    setTimeout(() => {
-      const gallerySection = document.getElementById('gallery')
-      if (gallerySection) {
-        gallerySection.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
-    }, 100)
+  const goToSection = (hash: string) => {
+    pendingScroll.current = hash
+    if (window.history.state?.projectId) {
+      // popstate handler clears the project
+      window.history.back()
+    } else {
+      setSelectedProjectId(null)
+    }
+  }
+
+  const handleBackToGallery = () => goToSection('#gallery')
+
+  // On the project page, in-page anchors (nav, footer, CTA) lead back to the main page sections
+  const handleAnchorClick = (e: MouseEvent) => {
+    const anchor = (e.target as HTMLElement).closest('a')
+    const href = anchor?.getAttribute('href')
+    if (!href || href.length < 2 || !href.startsWith('#')) return
+    e.preventDefault()
+    goToSection(href)
   }
 
   // Show project detail page if a project is selected
   if (selectedProjectId) {
     return (
-      <>
+      <div onClick={handleAnchorClick}>
         <Navigation />
         <ProjectDetailPage projectId={selectedProjectId} onClose={handleBackToGallery} />
         <Footer />
         <BackToTop />
-      </>
+      </div>
     )
   }
 

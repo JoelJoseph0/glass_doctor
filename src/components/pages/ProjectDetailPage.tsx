@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { GALLERY_PROJECTS, GalleryProject } from '@/data/gallery'
+import { GALLERY_PROJECTS } from '@/data/gallery'
 import LazyImage from '@/components/common/LazyImage'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 
@@ -233,7 +233,6 @@ export default function ProjectDetailPage({ projectId, onClose }: ProjectDetailP
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="#contact"
-              onClick={onClose}
               className="inline-flex items-center justify-center gap-3 bg-[#B39A70] text-[#171717] text-[10px] tracking-[0.25em] uppercase px-8 py-4 font-semibold hover:bg-[#F8F7F4] transition-all duration-300 hover:shadow-xl active:scale-95"
             >
               Get a Quote

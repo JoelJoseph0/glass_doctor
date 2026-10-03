@@ -264,8 +264,8 @@ export default function HeroSection() {
         flex-col
         items-center
         gap-3
-        animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-1000
-      ">
+        animate-in fade-in slide-in-from-bottom-4 duration-1000
+      " style={{ animationDelay: '1000ms' }}>
         <span
           className="
             text-[#E8E4DC]

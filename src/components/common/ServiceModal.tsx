@@ -107,8 +107,9 @@ export default function ServiceModal({ service, isOpen, onClose }: ServiceModalP
               {service.description.split('\n\n').map((paragraph, index) => (
                 <div key={index} className="mb-6">
                   {paragraph.split('\n').map((line, lineIndex) => {
-                    // Check if line is a heading (all caps or starts with "About")
-                    const isHeading = line === line.toUpperCase() || line.startsWith('About') || line.startsWith('Glass')
+                    // A heading is a short line that doesn't end like a sentence
+                    const trimmed = line.trim()
+                    const isHeading = trimmed.length > 0 && trimmed.length < 60 && !/[.!?:,;]$/.test(trimmed)
                     
                     if (isHeading && line.trim()) {
                       return (

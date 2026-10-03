@@ -28,10 +28,10 @@ export default function IntroSection() {
             `}
           >
             {/* Decorative frame corners */}
-            <div className="absolute -top-3 -left-3 w-8 h-8 border-t-2 border-l-2 border-[#B39A70] opacity-0 animate-in fade-in slide-in-from-top-4 duration-700 delay-300" style={{ animationFillMode: imageVisible ? 'forwards' : 'none' }} />
-            <div className="absolute -top-3 -right-3 w-8 h-8 border-t-2 border-r-2 border-[#B39A70] opacity-0 animate-in fade-in slide-in-from-top-4 duration-700 delay-400" style={{ animationFillMode: imageVisible ? 'forwards' : 'none' }} />
-            <div className="absolute -bottom-3 -left-3 w-8 h-8 border-b-2 border-l-2 border-[#B39A70] opacity-0 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-500" style={{ animationFillMode: imageVisible ? 'forwards' : 'none' }} />
-            <div className="absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-[#B39A70] opacity-0 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-600" style={{ animationFillMode: imageVisible ? 'forwards' : 'none' }} />
+            <div className={`absolute -top-3 -left-3 w-8 h-8 border-t-2 border-l-2 border-[#B39A70] transition-opacity duration-700 delay-300 ${imageVisible ? 'opacity-100' : 'opacity-0'}`} />
+            <div className={`absolute -top-3 -right-3 w-8 h-8 border-t-2 border-r-2 border-[#B39A70] transition-opacity duration-700 delay-400 ${imageVisible ? 'opacity-100' : 'opacity-0'}`} />
+            <div className={`absolute -bottom-3 -left-3 w-8 h-8 border-b-2 border-l-2 border-[#B39A70] transition-opacity duration-700 delay-500 ${imageVisible ? 'opacity-100' : 'opacity-0'}`} />
+            <div className={`absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-[#B39A70] transition-opacity duration-700 delay-600 ${imageVisible ? 'opacity-100' : 'opacity-0'}`} />
             
             <div className="overflow-hidden relative group">
               {/* Image reveal overlay */}

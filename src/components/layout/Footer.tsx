@@ -20,11 +20,11 @@ const SOCIAL_LINKS = [
 ]
 
 const FOOTER_NAV = [
-  'Home',
-  'About Us',
-  'Products',
-  'Services',
-  'Contact',
+  { label: 'Home', href: '#home' },
+  { label: 'About Us', href: '#about' },
+  { label: 'Products', href: '#products' },
+  { label: 'Services', href: '#services' },
+  { label: 'Contact', href: '#contact' },
 ]
 
 const FOOTER_PRODUCTS = [
@@ -117,11 +117,9 @@ export default function Footer() {
 
             <ul className="space-y-3">
               {FOOTER_NAV.map((item) => (
-                <li key={item}>
+                <li key={item.label}>
                   <a
-                    href={`#${item
-                      .toLowerCase()
-                      .replace(' ', '-')}`}
+                    href={item.href}
                     className="
                       text-[#77736C]
                       text-sm
@@ -130,7 +128,7 @@ export default function Footer() {
                       duration-300
                     "
                   >
-                    {item}
+                    {item.label}
                   </a>
                 </li>
               ))}
@@ -282,7 +280,7 @@ export default function Footer() {
             text-[#77736C]
             text-[11px]
           ">
-            © 2025 The Glass Doctor.
+            © {new Date().getFullYear()} The Glass Doctor.
             All Rights Reserved.
           </div>
 

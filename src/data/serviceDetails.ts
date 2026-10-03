@@ -23,8 +23,8 @@ export const SERVICE_DETAILS: ServiceDetail[] = [
   },
   {
     id: 'glass-lamination',
-    title: 'Glass Lamination',
-    subtitle: 'About Glass Lamination',
+    title: 'Laminated Glasses',
+    subtitle: 'About Laminated Glasses',
     description: 'Laminated glass is the ultimate high-security safety glass, engineered to provide exceptional impact resistance, structural integrity, and acoustic insulation. Manufactured by bonding two or more layers of glass together under heat and pressure using a tough, transparent interlayer—such as EVA & PVB—laminated glass remains intact even if shattered. When impacted, broken glass fragments adhere firmly to the internal interlayer, preventing dangerous falling shards, maintaining a protective barrier, and reducing the risk of forced entry. Beyond its superior safety and security benefits, laminated glass blocks up to 99% of harmful UV rays and significantly dampens exterior noise, making it the premier choice for structural skylights, glass floors, acoustic partitions, balustrades, and high-performance architectural facades.',
     image: 'ProductsImage/img3.jpg',
   },
@@ -34,6 +34,13 @@ export const SERVICE_DETAILS: ServiceDetail[] = [
     subtitle: 'About Double Glazed Units (DGU)',
     description: 'Double Glazed Units (DGU)—also known as Insulated Glass Units (IGU)—are engineered to deliver maximum thermal efficiency, sound insulation, and energy savings for modern buildings. A DGU consists of two panes of glass separated by a hermetically sealed air space, typically filled with dry air or noble gases like Argon, and bound together using high-performance spacers and dual-seal structural sealants. By preventing thermal transfer, DGUs dramatically reduce indoor heat gain in summer and heat loss in winter, lowering HVAC energy costs while improving overall indoor comfort. Customizable with Low-E coatings, solar control glass, or laminated inner panes, DGUs offer the ideal combination of environmental performance, acoustic dampening, and architectural versatility for exterior curtain walls, windows, and commercial facades.',
     image: 'ProductsImage/img4.jpg',
+  },
+  {
+    id: 'curtain-walls-aluminium',
+    title: 'Curtain Walls & Aluminium Works',
+    subtitle: 'About Curtain Walls & Aluminium Systems',
+    description: 'A curtain wall is a non-structural building envelope made of an aluminium framework infilled with glass panels. It hangs from the main structure and carries only its own weight and wind loads, which allows slender profiles, large glazed areas and flooding interiors with natural light. Our curtain wall systems are engineered for the UAE climate, with thermal breaks, high-performance double glazed or laminated glass, and weather-tight gaskets and sealants that resist heat, humidity, sand and driving rain. Available as stick-built, unitised, or structurally glazed and semi-unitised façades to suit the building and the programme.\n\nAluminium Works\n\nOur aluminium fabrication covers windows, sliding and folding doors, entrance doors, skylights, shopfronts, louvres and cladding. Profiles are extruded from quality aluminium alloys and finished with powder coating or anodising in a wide choice of colours and textures that stay durable against corrosion and UV exposure. Thermally broken frames improve insulation and cut cooling loads, while multi-point locking and tested hardware deliver security and smooth operation for years.\n\nWhy Choose Our Systems\n\nEvery project is measured, designed and fabricated to exact dimensions, with shop drawings, structural and wind-load checks, and professional installation by our own trained teams. From villas and retail showrooms to offices, hotels and high-rise towers, we deliver clean lines, long service life and façades that perform as good as they look.',
+    image: 'ProductsImage/img5.jpg',
   },
   {
     id: 'decorative-glass',
@@ -65,7 +72,7 @@ export function getServiceIdFromProductName(productName: string): string {
     'Glass Partitions': 'glass-partitions',
     'Smart Glasses': 'smart-glass',
     'Double Glazed Unit': 'double-glazed-units',
-    'Curtain Walls': 'double-glazed-units',
+    'Curtain Walls & Aluminium Works': 'curtain-walls-aluminium',
     'Laminated Glasses': 'glass-lamination',
     'Glass Processing Services': 'glass-processing',
   }

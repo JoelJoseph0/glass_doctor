@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useImageLoad } from '@/hooks/useImageLoad'
 
 interface LazyImageProps {
   src: string
@@ -9,8 +8,8 @@ interface LazyImageProps {
 }
 
 export default function LazyImage({ src, alt, className = '', style }: LazyImageProps) {
-  const { isLoaded } = useImageLoad(src)
-  const [hasIntersected, setHasIntersected] = useState(false)
+  const [loadedSrc, setLoadedSrc] = useState<string | null>(null)
+  const isLoaded = loadedSrc === src
 
   return (
     <div className="relative w-full h-full">
@@ -18,9 +17,13 @@ export default function LazyImage({ src, alt, className = '', style }: LazyImage
       {!isLoaded && (
         <div className="absolute inset-0 bg-gradient-to-r from-[#E8E4DC] via-[#D8D4CC] to-[#E8E4DC] animate-pulse bg-[length:200%_100%] animate-[shimmer_2s_infinite]" />
       )}
-      
-      {/* Actual image */}
+
+      {/* Actual image — the browser defers off-screen loads via loading="lazy" */}
       <img
+        ref={(img) => {
+          // Cached images can finish before React attaches onLoad
+          if (img?.complete && img.naturalWidth > 0) setLoadedSrc(src)
+        }}
         src={src}
         alt={alt}
         loading="lazy"
@@ -30,7 +33,8 @@ export default function LazyImage({ src, alt, className = '', style }: LazyImage
           ${isLoaded ? 'opacity-100' : 'opacity-0'}
         `}
         style={style}
-        onLoad={() => setHasIntersected(true)}
+        onLoad={() => setLoadedSrc(src)}
+        onError={() => setLoadedSrc(src)}
       />
     </div>
   )
