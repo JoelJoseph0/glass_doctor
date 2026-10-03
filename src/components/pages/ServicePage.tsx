@@ -14,6 +14,17 @@ export default function ServicePage({ serviceId }: ServicePageProps) {
 
   return (
     <main>
+      {/* Back Button - Fixed */}
+      <a
+        href="/#products"
+        className="fixed top-24 left-6 md:left-10 z-40 flex items-center gap-2 bg-[#171717]/90 backdrop-blur-sm text-[#F8F7F4] px-6 py-3 hover:bg-[#B39A70] hover:text-[#171717] transition-all duration-300"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M12 16L6 10L12 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        <span className="text-[10px] tracking-[0.2em] uppercase font-medium">Back to Services</span>
+      </a>
+
       {/* Hero */}
       <section className="relative h-[60vh] min-h-[420px] flex items-end bg-[#171717] overflow-hidden">
         <div className="absolute inset-0">
