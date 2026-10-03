@@ -2,12 +2,9 @@ import { useState } from 'react'
 import { GALLERY_PROJECTS, GALLERY_CATEGORIES } from '@/data/gallery'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import LazyImage from '@/components/common/LazyImage'
+import { projectPath } from '@/seo/routes'
 
-interface GallerySectionProps {
-  onProjectClick?: (projectId: string) => void
-}
-
-export default function GallerySection({ onProjectClick }: GallerySectionProps) {
+export default function GallerySection() {
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal()
   const [activeCategory, setActiveCategory] = useState('All Projects')
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
@@ -93,13 +90,13 @@ export default function GallerySection({ onProjectClick }: GallerySectionProps) 
           {/* Projects Grid */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, index) => (
-              <div
+              <a
                 key={project.id}
+                href={projectPath(project.id)}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                onClick={() => onProjectClick?.(project.id)}
                 className={`
-                  group cursor-pointer
+                  group block cursor-pointer
                   transition-all duration-700
                   ${headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}
                   ${hoveredIndex !== null && hoveredIndex !== index ? 'opacity-60 scale-95' : 'scale-100'}
@@ -172,7 +169,7 @@ export default function GallerySection({ onProjectClick }: GallerySectionProps) 
                   {/* Hover Border Effect */}
                   <div className="absolute inset-0 border-4 border-[#B39A70] scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
                 </div>
-              </div>
+              </a>
             ))}
           </div>
 

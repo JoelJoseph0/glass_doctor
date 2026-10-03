@@ -3,23 +3,12 @@ import ArrowRight from '@/components/common/ArrowRight'
 import { PRODUCTS } from '@/data/products'
 import LazyImage from '@/components/common/LazyImage'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { getServiceIdFromProductName, SERVICE_DETAILS } from '@/data/serviceDetails'
-import ServiceModal from '@/components/common/ServiceModal'
+import { getServiceIdFromProductName } from '@/data/serviceDetails'
+import { servicePath } from '@/seo/routes'
 
 export default function ProductsSection() {
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal()
   const [activeProduct, setActiveProduct] = useState<number | null>(null)
-  const [selectedService, setSelectedService] = useState<typeof SERVICE_DETAILS[0] | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const handleExploreService = (productName: string) => {
-    const serviceId = getServiceIdFromProductName(productName)
-    const service = SERVICE_DETAILS.find(s => s.id === serviceId)
-    if (service) {
-      setSelectedService(service)
-      setIsModalOpen(true)
-    }
-  }
 
   return (
     <>
@@ -244,11 +233,8 @@ export default function ProductsSection() {
                   </p>
 
                   {/* Learn More Button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleExploreService(product.name)
-                    }}
+                  <a
+                    href={servicePath(getServiceIdFromProductName(product.name))}
                     className="
                       flex
                       items-center
@@ -281,7 +267,7 @@ export default function ProductsSection() {
                       transition-transform
                       duration-300
                     " />
-                  </button>
+                  </a>
                 </div>
 
                 {/* Hover Border Effect */}
@@ -376,11 +362,6 @@ export default function ProductsSection() {
       </div>
     </section>
 
-    <ServiceModal 
-      service={selectedService} 
-      isOpen={isModalOpen} 
-      onClose={() => setIsModalOpen(false)} 
-    />
     </>
   )
 }

@@ -10,7 +10,7 @@ export interface GalleryProject {
 
 export const GALLERY_PROJECTS: GalleryProject[] = [
   {
-    id: 'pr1',
+    id: 'premium-glass-solutions',
     title: 'Premium Glass Solutions',
     description: 'High-end tempered glass installation with custom finishing and precision engineering for modern architectural spaces',
     category: 'Commercial',
@@ -28,7 +28,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     ],
   },
   {
-    id: 'pr2',
+    id: 'interior-glass-works',
     title: 'Interior Glass Works',
     description: 'Sophisticated interior glass installations featuring partitions, doors, and custom glass solutions for residential and commercial interiors',
     category: 'Residential',
@@ -54,7 +54,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     ],
   },
   {
-    id: 'pr3',
+    id: 'elevator-glasses',
     title: 'Elevator Glasses',
     description: 'Premium elevated glass installations showcasing architectural excellence and innovative glass engineering solutions',
     category: 'Commercial',

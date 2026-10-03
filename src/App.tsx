@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type MouseEvent } from 'react'
+import { useEffect, useRef, type MouseEvent } from 'react'
 import Navigation from '@/components/layout/Navigation'
 import Footer from '@/components/layout/Footer'
 import HeroSection from '@/components/sections/HeroSection'
@@ -14,85 +14,80 @@ import CTASection from '@/components/sections/CTASection'
 import ContactSection from '@/components/sections/ContactSection_EmailJS'
 import BackToTop from '@/components/common/BackToTop'
 import ProjectDetailPage from '@/components/pages/ProjectDetailPage'
+import ServicePage from '@/components/pages/ServicePage'
+import NotFoundPage from '@/components/pages/NotFoundPage'
+import { navigate, usePathname } from '@/router'
+import { matchRoute } from '@/seo/routes'
+import { usePageMeta } from '@/seo/usePageMeta'
+
+function scrollToHash(hash: string) {
+  if (!hash || hash.length < 2) return false
+  const target = document.querySelector(hash)
+  target?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  return Boolean(target)
+}
 
 export default function App() {
-  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
-  const pendingScroll = useRef<string | null>(null)
+  const pathname = usePathname()
+  const route = matchRoute(pathname)
+  const previousType = useRef<string | null>(null)
 
-  // Keep the browser Back/Forward buttons in sync with the open project
+  usePageMeta(pathname)
+
+  // After a route change: scroll to the hash target, back to the gallery
+  // when leaving a project, or to the top of the new page.
   useEffect(() => {
-    const handlePopState = (e: PopStateEvent) => {
-      pendingScroll.current ??= '#gallery'
-      setSelectedProjectId(e.state?.projectId ?? null)
+    const leftProject = previousType.current === 'project' && route.type === 'home'
+    previousType.current = route.type
+
+    const hash = window.location.hash || (leftProject ? '#gallery' : '')
+    if (!hash) {
+      window.scrollTo({ top: 0, behavior: 'instant' })
+      return
     }
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [])
-
-  // After returning to the main page, scroll to the requested section
-  useEffect(() => {
-    if (selectedProjectId !== null || !pendingScroll.current) return
-    const target = pendingScroll.current
-    pendingScroll.current = null
-    const timer = setTimeout(() => {
-      document.querySelector(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 100)
+    const timer = setTimeout(() => scrollToHash(hash), 100)
     return () => clearTimeout(timer)
-  }, [selectedProjectId])
+  }, [pathname, route.type])
 
-  const handleProjectClick = (projectId: string) => {
-    window.history.pushState({ projectId }, '')
-    setSelectedProjectId(projectId)
-  }
-
-  const goToSection = (hash: string) => {
-    pendingScroll.current = hash
-    if (window.history.state?.projectId) {
-      // popstate handler clears the project
-      window.history.back()
-    } else {
-      setSelectedProjectId(null)
-    }
-  }
-
-  const handleBackToGallery = () => goToSection('#gallery')
-
-  // On the project page, in-page anchors (nav, footer, CTA) lead back to the main page sections
-  const handleAnchorClick = (e: MouseEvent) => {
+  // Internal links navigate without a full page load; hash links on
+  // sub-pages lead back to the matching home page section.
+  const handleClick = (e: MouseEvent) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
     const anchor = (e.target as HTMLElement).closest('a')
     const href = anchor?.getAttribute('href')
-    if (!href || href.length < 2 || !href.startsWith('#')) return
-    e.preventDefault()
-    goToSection(href)
+    if (!anchor || !href || anchor.target === '_blank') return
+
+    if (href.startsWith('#')) {
+      if (route.type === 'home') return
+      e.preventDefault()
+      navigate(`/${href}`)
+    } else if (href.startsWith('/') && !href.startsWith('//')) {
+      e.preventDefault()
+      navigate(href)
+    }
   }
 
-  // Show project detail page if a project is selected
-  if (selectedProjectId) {
-    return (
-      <div onClick={handleAnchorClick}>
-        <Navigation />
-        <ProjectDetailPage projectId={selectedProjectId} onClose={handleBackToGallery} />
-        <Footer />
-        <BackToTop />
-      </div>
-    )
-  }
-
-  // Show main website
   return (
-    <div className="min-h-screen bg-[#F8F7F4]">
-      <Navigation />
-      <HeroSection />
-      <IntroSection />
-      <StatsSection />
-      <ProductsSection />
-      <ApplicationsSection />
-      <GallerySection onProjectClick={handleProjectClick} />
-      <BrandStatement />
-      <ProcessSection />
-      <WhyUsSection />
-      <CTASection />
-      <ContactSection />
+    <div className="min-h-screen bg-[#F8F7F4]" onClick={handleClick}>
+      <Navigation key={route.type} />
+      {route.type === 'home' && (
+        <>
+          <HeroSection />
+          <IntroSection />
+          <StatsSection />
+          <ProductsSection />
+          <ApplicationsSection />
+          <GallerySection />
+          <BrandStatement />
+          <ProcessSection />
+          <WhyUsSection />
+          <CTASection />
+          <ContactSection />
+        </>
+      )}
+      {route.type === 'service' && <ServicePage serviceId={route.id} />}
+      {route.type === 'project' && <ProjectDetailPage key={route.id} projectId={route.id} />}
+      {route.type === 'notfound' && <NotFoundPage />}
       <Footer />
       <BackToTop />
     </div>

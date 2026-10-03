@@ -1,35 +1,29 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { GALLERY_PROJECTS } from '@/data/gallery'
 import LazyImage from '@/components/common/LazyImage'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 interface ProjectDetailPageProps {
   projectId: string
-  onClose: () => void
 }
 
-export default function ProjectDetailPage({ projectId, onClose }: ProjectDetailPageProps) {
+export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
   const project = GALLERY_PROJECTS.find(p => p.id === projectId)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const { ref: headerRef, isVisible: headerVisible } = useScrollReveal()
   const { ref: imagesRef, isVisible: imagesVisible } = useScrollReveal()
-
-  // Scroll to top when page opens
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [projectId])
 
   if (!project) {
     return (
       <div className="min-h-screen bg-[#F8F7F4] flex items-center justify-center">
         <div className="text-center">
           <h2 className="font-display text-4xl text-[#171717] mb-4">Project Not Found</h2>
-          <button
-            onClick={onClose}
+          <a
+            href="/#gallery"
             className="text-[#B39A70] hover:text-[#171717] transition-colors duration-300"
           >
             ← Back to Gallery
-          </button>
+          </a>
         </div>
       </div>
     )
@@ -38,15 +32,15 @@ export default function ProjectDetailPage({ projectId, onClose }: ProjectDetailP
   return (
     <div className="min-h-screen bg-[#F8F7F4]">
       {/* Back Button - Fixed */}
-      <button
-        onClick={onClose}
+      <a
+        href="/#gallery"
         className="fixed top-24 left-6 md:left-10 z-40 flex items-center gap-2 bg-[#171717]/90 backdrop-blur-sm text-[#F8F7F4] px-6 py-3 hover:bg-[#B39A70] hover:text-[#171717] transition-all duration-300 group"
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
           <path d="M12 16L6 10L12 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
         <span className="text-[10px] tracking-[0.2em] uppercase font-medium">Back to Gallery</span>
-      </button>
+      </a>
 
       {/* Hero Section */}
       <section className="pt-32 pb-16 md:pt-40 md:pb-24 bg-gradient-to-b from-[#E8E4DC] to-[#F8F7F4]">
@@ -237,12 +231,12 @@ export default function ProjectDetailPage({ projectId, onClose }: ProjectDetailP
             >
               Get a Quote
             </a>
-            <button
-              onClick={onClose}
+            <a
+              href="/#gallery"
               className="inline-flex items-center justify-center gap-3 border-2 border-[#B39A70] text-[#B39A70] text-[10px] tracking-[0.25em] uppercase px-8 py-4 font-semibold hover:bg-[#B39A70] hover:text-[#171717] transition-all duration-300"
             >
               View More Projects
-            </button>
+            </a>
           </div>
         </div>
       </section>
