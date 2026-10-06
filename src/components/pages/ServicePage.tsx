@@ -16,7 +16,7 @@ export default function ServicePage({ serviceId }: ServicePageProps) {
     <main>
       {/* Back Button - Fixed */}
       <a
-        href="/#products"
+        href="/services/"
         className="fixed top-24 left-6 md:left-10 z-40 flex items-center gap-2 bg-[#171717]/90 backdrop-blur-sm text-[#F8F7F4] px-6 py-3 hover:bg-[#B39A70] hover:text-[#171717] transition-all duration-300"
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -40,7 +40,7 @@ export default function ServicePage({ serviceId }: ServicePageProps) {
           <nav aria-label="Breadcrumb" className="text-[#E8E4DC] text-xs mb-6">
             <a href="/" className="hover:text-[#B39A70] transition-colors">Home</a>
             <span className="mx-2 text-[#B39A70]">/</span>
-            <a href="/#products" className="hover:text-[#B39A70] transition-colors">Services</a>
+            <a href="/services/" className="hover:text-[#B39A70] transition-colors">Services</a>
             <span className="mx-2 text-[#B39A70]">/</span>
             <span className="text-[#B39A70]">{service.title}</span>
           </nav>

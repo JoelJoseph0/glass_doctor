@@ -1,4 +1,6 @@
 import Logo from '@/components/common/Logo'
+import { SERVICE_DETAILS } from '@/data/serviceDetails'
+import { servicePath } from '@/seo/routes'
 
 const SOCIAL_LINKS = [
   {
@@ -20,20 +22,11 @@ const SOCIAL_LINKS = [
 ]
 
 const FOOTER_NAV = [
-  { label: 'Home', href: '#home' },
-  { label: 'About Us', href: '#about' },
-  { label: 'Products', href: '#products' },
-  { label: 'Services', href: '#services' },
-  { label: 'Contact', href: '#contact' },
-]
-
-const FOOTER_PRODUCTS = [
-  'Glass Tempering & Bending',
-  'Glass Partitions',
-  'Smart Glasses',
-  'Double Glazed Unit',
-  'Curtain Walls & Aluminium Works',
-  'Glass Processing',
+  { label: 'Home', href: '/' },
+  { label: 'About Us', href: '/about/' },
+  { label: 'Services', href: '/services/' },
+  { label: 'Projects', href: '/projects/' },
+  { label: 'Contact', href: '/contact/' },
 ]
 
 export default function Footer() {
@@ -147,10 +140,10 @@ export default function Footer() {
             </div>
 
             <ul className="space-y-3">
-              {FOOTER_PRODUCTS.map((product) => (
-                <li key={product}>
+              {SERVICE_DETAILS.map((service) => (
+                <li key={service.id}>
                   <a
-                    href="#products"
+                    href={servicePath(service.id)}
                     className="
                       text-[#77736C]
                       text-sm
@@ -159,7 +152,7 @@ export default function Footer() {
                       duration-300
                     "
                   >
-                    {product}
+                    {service.title}
                   </a>
                 </li>
               ))}

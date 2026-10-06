@@ -13,7 +13,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     id: 'premium-glass-solutions',
     title: 'Premium Glass Solutions',
     description: 'High-end tempered glass installation with custom finishing and precision engineering for modern architectural spaces',
-    category: 'Commercial',
+    category: 'Residential',
     location: 'UAE',
     coverImage: 'ProductGallery/Pr1/img1.jpg',
     images: [
@@ -31,7 +31,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     id: 'interior-glass-works',
     title: 'Interior Glass Works',
     description: 'Sophisticated interior glass installations featuring partitions, doors, and custom glass solutions for residential and commercial interiors',
-    category: 'Residential',
+    category: 'Commercial',
     location: 'UAE',
     coverImage: 'ProductGallery/Pr2/1ca707a5-5075-4564-b380-d04b15d227fc.jpg',
     images: [
@@ -57,7 +57,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     id: 'elevator-glasses',
     title: 'Elevator Glasses',
     description: 'Premium elevated glass installations showcasing architectural excellence and innovative glass engineering solutions',
-    category: 'Commercial',
+    category: 'Residential',
     location: 'UAE',
     coverImage: 'ProductGallery/Pr3/8c6e41cc-417b-4a01-ae41-58772942ebff.jpg',
     images: [

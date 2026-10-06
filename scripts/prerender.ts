@@ -65,14 +65,33 @@ function structuredData(path: string): string {
     return jsonLd({ '@context': 'https://schema.org', ...business })
   }
 
-  const breadcrumb = (name: string, parent: string) => ({
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
-      { '@type': 'ListItem', position: 2, name: parent, item: `${SITE_URL}/#${parent === 'Services' ? 'products' : 'gallery'}` },
-      { '@type': 'ListItem', position: 3, name, item: absoluteUrl(meta.path) },
-    ],
-  })
+  const pageCrumbs = (name: string, extra: { name: string; path: string }[] = []) =>
+    jsonLd({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [{ name: 'Home', path: '/' }, ...extra, { name, path: meta.path }].map((item, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: item.name,
+        item: absoluteUrl(item.path),
+      })),
+    })
+
+  if (route.type === 'about' || route.type === 'contact') {
+    return (
+      jsonLd({
+        '@context': 'https://schema.org',
+        '@type': route.type === 'about' ? 'AboutPage' : 'ContactPage',
+        name: meta.title,
+        url: absoluteUrl(meta.path),
+        mainEntity: { '@id': `${SITE_URL}/#business`, ...business },
+      }) + pageCrumbs(route.type === 'about' ? 'About Us' : 'Contact')
+    )
+  }
+
+  if (route.type === 'services' || route.type === 'projects') {
+    return pageCrumbs(route.type === 'services' ? 'Services' : 'Projects')
+  }
 
   if (route.type === 'service') {
     return (
@@ -85,11 +104,11 @@ function structuredData(path: string): string {
         url: absoluteUrl(meta.path),
         areaServed: { '@type': 'Country', name: 'United Arab Emirates' },
         provider: { '@id': `${SITE_URL}/#business`, ...business },
-      }) + jsonLd({ '@context': 'https://schema.org', ...breadcrumb(meta.heading, 'Services') })
+      }) + pageCrumbs(meta.heading, [{ name: 'Services', path: '/services/' }])
     )
   }
 
-  return jsonLd({ '@context': 'https://schema.org', ...breadcrumb(meta.heading, 'Projects') })
+  return pageCrumbs(meta.heading, [{ name: 'Projects', path: '/projects/' }])
 }
 
 /** Plain content so crawlers see text and internal links before JS runs. */
@@ -106,8 +125,25 @@ function crawlerContent(path: string): string {
       .join('')
   }
 
-  if (route.type === 'home') {
-    html += '<nav><h2>Our Services</h2><ul>'
+  if (route.type === 'contact') {
+    html += '<p>Phone / WhatsApp: <a href="tel:+971502597995">+971 50 259 7995</a></p>'
+    html += '<p>Email: <a href="mailto:sales@theglassdoctor.ae">sales@theglassdoctor.ae</a></p>'
+    html += '<p>Location: Sharjah, United Arab Emirates. Serving all of UAE.</p>'
+    html += '<p>Hours: Monday - Saturday 8:00 AM - 5:00 PM, Sunday closed.</p>'
+  }
+
+  if (route.type !== 'notfound') {
+    html += '<nav><ul>'
+    html += [
+      ['/', 'Home'],
+      ['/about/', 'About Us'],
+      ['/services/', 'Services'],
+      ['/projects/', 'Projects'],
+      ['/contact/', 'Contact'],
+    ]
+      .map(([href, label]) => `<li><a href="${href}">${label}</a></li>`)
+      .join('')
+    html += '</ul><h2>Our Services</h2><ul>'
     html += SERVICE_DETAILS.map((s) => `<li><a href="${servicePath(s.id)}">${esc(s.title)}</a></li>`).join('')
     html += '</ul><h2>Projects</h2><ul>'
     html += GALLERY_PROJECTS.map((p) => `<li><a href="${projectPath(p.id)}">${esc(p.title)}</a></li>`).join('')
@@ -165,7 +201,11 @@ write('404.html', template)
 const today = new Date().toISOString().slice(0, 10)
 const urls = paths
   .map((path) => {
-    const priority = path === '/' ? '1.0' : path.startsWith('/services/') ? '0.8' : '0.6'
+    const priority =
+      path === '/' ? '1.0'
+      : ['/about/', '/services/', '/projects/', '/contact/'].includes(path) ? '0.9'
+      : path.startsWith('/services/') ? '0.8'
+      : '0.6'
     return `  <url>\n    <loc>${absoluteUrl(path)}</loc>\n    <lastmod>${today}</lastmod>\n    <priority>${priority}</priority>\n  </url>`
   })
   .join('\n')

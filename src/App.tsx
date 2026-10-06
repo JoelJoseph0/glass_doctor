@@ -16,6 +16,10 @@ import BackToTop from '@/components/common/BackToTop'
 import ProjectDetailPage from '@/components/pages/ProjectDetailPage'
 import ServicePage from '@/components/pages/ServicePage'
 import NotFoundPage from '@/components/pages/NotFoundPage'
+import AboutPage from '@/components/pages/AboutPage'
+import ContactPage from '@/components/pages/ContactPage'
+import ServicesPage from '@/components/pages/ServicesPage'
+import ProjectsPage from '@/components/pages/ProjectsPage'
 import { navigate, usePathname } from '@/router'
 import { matchRoute } from '@/seo/routes'
 import { usePageMeta } from '@/seo/usePageMeta'
@@ -37,7 +41,7 @@ export default function App() {
   // After a route change: scroll to the hash target, back to the gallery
   // when leaving a project, or to the top of the new page.
   useEffect(() => {
-    const leftProject = previousType.current === 'project' && route.type === 'home'
+    const leftProject = previousType.current === 'project' && (route.type === 'home' || route.type === 'projects')
     previousType.current = route.type
 
     const hash = window.location.hash || (leftProject ? '#gallery' : '')
@@ -85,6 +89,10 @@ export default function App() {
           <ContactSection />
         </>
       )}
+      {route.type === 'about' && <AboutPage />}
+      {route.type === 'services' && <ServicesPage />}
+      {route.type === 'projects' && <ProjectsPage />}
+      {route.type === 'contact' && <ContactPage />}
       {route.type === 'service' && <ServicePage serviceId={route.id} />}
       {route.type === 'project' && <ProjectDetailPage key={route.id} projectId={route.id} />}
       {route.type === 'notfound' && <NotFoundPage />}

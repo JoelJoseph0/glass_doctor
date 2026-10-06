@@ -1,39 +1,20 @@
 import { useEffect, useState } from 'react'
 import Logo from '@/components/common/Logo'
-import { useActiveSection } from '@/hooks/useActiveSection'
+import { usePathname } from '@/router'
 
 const NAV_LINKS = [
-  {
-    label: 'Home',
-    href: '#home',
-  },
-  {
-    label: 'About Us',
-    href: '#about',
-  },
-  {
-    label: 'Products',
-    href: '#products',
-  },
-  {
-    label: 'Gallery',
-    href: '#gallery',
-  },
-  {
-    label: 'Services',
-    href: '#services',
-  },
-  {
-    label: 'Contact',
-    href: '#contact',
-  },
+  { label: 'Home', href: '/' },
+  { label: 'About Us', href: '/about/' },
+  { label: 'Services', href: '/services/' },
+  { label: 'Projects', href: '/projects/' },
+  { label: 'Contact', href: '/contact/' },
 ]
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [open, setOpen] = useState(false)
-  const activeSection = useActiveSection()
+  const pathname = usePathname().replace(/\/?$/, '/')
 
   useEffect(() => {
     const handleScroll = () => {
@@ -83,7 +64,7 @@ export default function Navigation() {
         )}
 
         <div className="max-w-[1440px] mx-auto px-6 md:px-10 py-5 flex items-center justify-between">
-          <a href="#home" className="relative group">
+          <a href="/" className="relative group">
             <Logo />
             <div className="absolute inset-0 bg-[#B39A70]/0 group-hover:bg-[#B39A70]/5 rounded-lg transition-colors duration-300 -z-10 blur-xl" />
           </a>
@@ -91,7 +72,7 @@ export default function Navigation() {
         {/* Desktop */}
         <div className="hidden lg:flex items-center gap-7">
           {NAV_LINKS.map((link) => {
-            const isActive = activeSection === link.href.substring(1)
+            const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)
             return (
               <a
                 key={link.label}
@@ -130,7 +111,7 @@ export default function Navigation() {
         </div>
 
         <a
-          href="#contact"
+          href="/contact/"
           className="
             hidden lg:inline-flex
             relative
@@ -222,7 +203,7 @@ export default function Navigation() {
       >
         <div className="px-6 pb-8 flex flex-col gap-1 border-t border-[#B39A70]/20">
           {NAV_LINKS.map((link, index) => {
-            const isActive = activeSection === link.href.substring(1)
+            const isActive = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)
             return (
               <a
                 key={link.label}
@@ -270,7 +251,7 @@ export default function Navigation() {
           })}
 
           <a
-            href="#contact"
+            href="/contact/"
             onClick={handleLinkClick}
             className={`
               mt-4
