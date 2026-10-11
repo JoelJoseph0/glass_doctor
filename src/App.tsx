@@ -20,6 +20,10 @@ import AboutPage from '@/components/pages/AboutPage'
 import ContactPage from '@/components/pages/ContactPage'
 import ServicesPage from '@/components/pages/ServicesPage'
 import ProjectsPage from '@/components/pages/ProjectsPage'
+import AreasPage from '@/components/pages/AreasPage'
+import AreaPage from '@/components/pages/AreaPage'
+import AreasSection from '@/components/sections/AreasSection'
+import WhatsAppButton from '@/components/common/WhatsAppButton'
 import { navigate, usePathname } from '@/router'
 import { matchRoute } from '@/seo/routes'
 import { usePageMeta } from '@/seo/usePageMeta'
@@ -85,6 +89,7 @@ export default function App() {
           <BrandStatement />
           <ProcessSection />
           <WhyUsSection />
+          <AreasSection />
           <CTASection />
           <ContactSection />
         </>
@@ -93,11 +98,14 @@ export default function App() {
       {route.type === 'services' && <ServicesPage />}
       {route.type === 'projects' && <ProjectsPage />}
       {route.type === 'contact' && <ContactPage />}
+      {route.type === 'areas' && <AreasPage />}
+      {route.type === 'area' && <AreaPage key={route.id} areaId={route.id} />}
       {route.type === 'service' && <ServicePage serviceId={route.id} />}
       {route.type === 'project' && <ProjectDetailPage key={route.id} projectId={route.id} />}
       {route.type === 'notfound' && <NotFoundPage />}
       <Footer />
       <BackToTop />
+      <WhatsAppButton />
     </div>
   )
 }

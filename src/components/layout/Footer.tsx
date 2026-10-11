@@ -1,6 +1,7 @@
 import Logo from '@/components/common/Logo'
 import { SERVICE_DETAILS } from '@/data/serviceDetails'
-import { servicePath } from '@/seo/routes'
+import { AREAS } from '@/data/areas'
+import { areaPath, servicePath } from '@/seo/routes'
 
 const SOCIAL_LINKS = [
   {
@@ -26,6 +27,7 @@ const FOOTER_NAV = [
   { label: 'About Us', href: '/about/' },
   { label: 'Services', href: '/services/' },
   { label: 'Projects', href: '/projects/' },
+  { label: 'Areas We Serve', href: '/areas/' },
   { label: 'Contact', href: '/contact/' },
 ]
 
@@ -69,7 +71,7 @@ export default function Footer() {
               gap-3
               mt-8
             ">
-              {SOCIAL_LINKS.map((social) => (
+              {SOCIAL_LINKS.filter((social) => social.href !== '#').map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
@@ -259,6 +261,24 @@ export default function Footer() {
             </div>
           </div>
 
+        </div>
+
+        <div className="pb-8 mb-8 border-b border-[#77736C]/15">
+          <div className="text-[#F8F7F4] text-[8px] tracking-[0.35em] uppercase mb-4">
+            Areas We Serve
+          </div>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            {AREAS.map((area) => (
+              <li key={area.id}>
+                <a
+                  href={areaPath(area.id)}
+                  className="text-[#77736C] text-sm hover:text-[#B39A70] transition-colors duration-300"
+                >
+                  Glass Company in {area.name}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="

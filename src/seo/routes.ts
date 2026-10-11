@@ -1,22 +1,25 @@
 import { GALLERY_PROJECTS } from '../data/gallery.ts'
 import { SERVICE_DETAILS } from '../data/serviceDetails.ts'
+import { SERVICE_SEO } from '../data/serviceSeo.ts'
+import { AREAS } from '../data/areas.ts'
 
 export const SITE_URL = 'https://theglassdoctor.ae'
 export const SITE_NAME = 'The Glass Doctor'
 
-export const HOME_TITLE = 'The Glass Doctor | Glass & Architectural Solutions UAE'
+export const HOME_TITLE = 'The Glass Doctor UAE | Glass Company in Sharjah & Dubai'
 export const HOME_DESCRIPTION =
-  'The Glass Doctor — Excellence Through Transparency. Premium glass and architectural solutions for residential, commercial and architectural projects across the UAE.'
+  'Sharjah-based glass and aluminium company serving all of the UAE: glass partitions, tempered, laminated, smart and double glazed glass, curtain walls and aluminium works.'
 
 const DEFAULT_OG_IMAGE = 'ProductsImage/img19.jpg'
 
-export type StaticPage = 'about' | 'contact' | 'services' | 'projects'
+export type StaticPage = 'about' | 'contact' | 'services' | 'projects' | 'areas'
 
 export type Route =
   | { type: 'home' }
   | { type: StaticPage }
   | { type: 'service'; id: string }
   | { type: 'project'; id: string }
+  | { type: 'area'; id: string }
   | { type: 'notfound' }
 
 export interface RouteMeta {
@@ -40,6 +43,7 @@ export function matchRoute(rawPath: string): Route {
   if (path === '/contact') return { type: 'contact' }
   if (path === '/services') return { type: 'services' }
   if (path === '/projects') return { type: 'projects' }
+  if (path === '/areas') return { type: 'areas' }
 
   const service = path.match(/^\/services\/([^/]+)$/)
   if (service && SERVICE_DETAILS.some((s) => s.id === service[1])) {
@@ -51,11 +55,17 @@ export function matchRoute(rawPath: string): Route {
     return { type: 'project', id: project[1] }
   }
 
+  const area = path.match(/^\/areas\/([^/]+)$/)
+  if (area && AREAS.some((a) => a.id === area[1])) {
+    return { type: 'area', id: area[1] }
+  }
+
   return { type: 'notfound' }
 }
 
 export const servicePath = (id: string) => `/services/${id}/`
 export const projectPath = (id: string) => `/projects/${id}/`
+export const areaPath = (id: string) => `/areas/${id}/`
 
 const STATIC_PAGES: Record<StaticPage, RouteMeta> = {
   about: {
@@ -90,6 +100,14 @@ const STATIC_PAGES: Record<StaticPage, RouteMeta> = {
     image: 'ProductGallery/Pr1/img1.jpg',
     heading: 'Our Projects',
   },
+  areas: {
+    path: '/areas/',
+    title: `Glass Company Serving All UAE Emirates | ${SITE_NAME}`,
+    description:
+      'The Glass Doctor serves Sharjah, Dubai, Abu Dhabi, Ajman, Ras Al Khaimah, Umm Al Quwain and Fujairah with glass partitions, tempered, smart and double glazed glass and aluminium works.',
+    image: DEFAULT_OG_IMAGE,
+    heading: 'Areas We Serve in the UAE',
+  },
 }
 
 export function getRouteMeta(rawPath: string): RouteMeta {
@@ -103,7 +121,7 @@ export function getRouteMeta(rawPath: string): RouteMeta {
     const s = SERVICE_DETAILS.find((x) => x.id === route.id)!
     return {
       path: servicePath(s.id),
-      title: `${s.title} UAE | ${SITE_NAME}`,
+      title: SERVICE_SEO[s.id]?.seoTitle ?? `${s.title} in UAE | ${SITE_NAME}`,
       description: s.metaDescription,
       image: s.image,
       heading: s.title,
@@ -118,6 +136,17 @@ export function getRouteMeta(rawPath: string): RouteMeta {
       description: p.description,
       image: p.coverImage,
       heading: p.title,
+    }
+  }
+
+  if (route.type === 'area') {
+    const a = AREAS.find((x) => x.id === route.id)!
+    return {
+      path: areaPath(a.id),
+      title: a.seoTitle,
+      description: a.metaDescription,
+      image: DEFAULT_OG_IMAGE,
+      heading: `Glass & Aluminium Company in ${a.name}`,
     }
   }
 
@@ -137,7 +166,7 @@ export function getRouteMeta(rawPath: string): RouteMeta {
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
     image: DEFAULT_OG_IMAGE,
-    heading: 'The Glass Doctor',
+    heading: 'Glass & Aluminium Company in Sharjah, UAE',
   }
 }
 
@@ -150,6 +179,8 @@ export function getAllPaths(): string[] {
     ...SERVICE_DETAILS.map((s) => servicePath(s.id)),
     '/projects/',
     ...GALLERY_PROJECTS.map((p) => projectPath(p.id)),
+    '/areas/',
+    ...AREAS.map((a) => areaPath(a.id)),
     '/contact/',
   ]
 }

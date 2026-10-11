@@ -1,6 +1,9 @@
 import { SERVICE_DETAILS } from '@/data/serviceDetails'
+import { SERVICE_SEO } from '@/data/serviceSeo'
+import { AREAS } from '@/data/areas'
 import LazyImage from '@/components/common/LazyImage'
-import { servicePath } from '@/seo/routes'
+import FaqList from '@/components/common/FaqList'
+import { areaPath, servicePath } from '@/seo/routes'
 
 interface ServicePageProps {
   serviceId: string
@@ -11,6 +14,7 @@ export default function ServicePage({ serviceId }: ServicePageProps) {
   if (!service) return null
 
   const others = SERVICE_DETAILS.filter((s) => s.id !== serviceId)
+  const seo = SERVICE_SEO[service.id]
 
   return (
     <main>
@@ -30,7 +34,7 @@ export default function ServicePage({ serviceId }: ServicePageProps) {
         <div className="absolute inset-0">
           <LazyImage
             src={`${import.meta.env.BASE_URL}${service.image}`}
-            alt={`${service.title} by The Glass Doctor`}
+            alt={`${service.title} in Sharjah, Dubai and the UAE by The Glass Doctor`}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#171717] via-[#171717]/60 to-[#171717]/20" />
@@ -53,7 +57,10 @@ export default function ServicePage({ serviceId }: ServicePageProps) {
           </div>
 
           <h1 className="font-display text-[#F8F7F4] text-4xl md:text-6xl leading-[1.08] max-w-4xl">
-            {service.title}
+            {service.title}{' '}
+            <span className="block text-[#E8E4DC] text-xl md:text-3xl mt-4">
+              in Sharjah, Dubai &amp; Across the UAE
+            </span>
           </h1>
         </div>
       </section>
@@ -82,9 +89,59 @@ export default function ServicePage({ serviceId }: ServicePageProps) {
             )
           })}
 
+          {seo && (
+            <>
+              <div className="grid md:grid-cols-2 gap-10 mt-14">
+                <div>
+                  <h2 className="font-display text-[#171717] text-2xl mb-6">Key Benefits</h2>
+                  <ul className="space-y-3">
+                    {seo.benefits.map((benefit) => (
+                      <li key={benefit} className="flex gap-3 text-[#77736C] leading-relaxed">
+                        <span className="text-[#B39A70] font-bold">✓</span>
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h2 className="font-display text-[#171717] text-2xl mb-6">Typical Applications</h2>
+                  <ul className="flex flex-wrap gap-2">
+                    {seo.applications.map((application) => (
+                      <li key={application} className="bg-[#E8E4DC] text-[#171717] text-sm px-4 py-2">
+                        {application}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="mt-16">
+                <FaqList title={`${service.title}: Frequently Asked Questions`} faqs={seo.faqs} />
+              </div>
+            </>
+          )}
+
+          <div className="mt-14">
+            <h2 className="font-display text-[#171717] text-2xl mb-6">
+              {service.title} Across the UAE
+            </h2>
+            <ul className="flex flex-wrap gap-2">
+              {AREAS.map((area) => (
+                <li key={area.id}>
+                  <a
+                    href={areaPath(area.id)}
+                    className="inline-block border border-[#B39A70]/50 text-[#171717] text-sm px-4 py-2 hover:bg-[#B39A70] transition-colors duration-300"
+                  >
+                    {area.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           <div className="mt-12 pt-8 border-t border-[#77736C]/20 flex flex-col sm:flex-row gap-4">
             <a
-              href="#contact"
+              href="/contact/"
               className="inline-flex items-center justify-center bg-[#B39A70] text-[#171717] text-[10px] tracking-[0.25em] uppercase px-8 py-4 font-semibold hover:bg-[#171717] hover:text-[#F8F7F4] transition-all duration-300"
             >
               Request a Quote

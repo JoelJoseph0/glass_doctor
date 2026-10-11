@@ -9,11 +9,14 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { GALLERY_PROJECTS } from '../src/data/gallery.ts'
 import { SERVICE_DETAILS } from '../src/data/serviceDetails.ts'
+import { SERVICE_SEO } from '../src/data/serviceSeo.ts'
+import { AREAS } from '../src/data/areas.ts'
 import {
   SITE_NAME,
   SITE_URL,
   absoluteImage,
   absoluteUrl,
+  areaPath,
   getAllPaths,
   getRouteMeta,
   matchRoute,
@@ -34,6 +37,7 @@ const business = {
   '@type': 'LocalBusiness',
   '@id': `${SITE_URL}/#business`,
   name: SITE_NAME,
+  alternateName: ['The Glass Doctor UAE', 'The Glass Doctor Sharjah'],
   url: `${SITE_URL}/`,
   image: absoluteImage('Logo.png'),
   logo: absoluteImage('Logo.png'),
@@ -46,7 +50,19 @@ const business = {
     addressLocality: 'Sharjah',
     addressCountry: 'AE',
   },
-  areaServed: { '@type': 'Country', name: 'United Arab Emirates' },
+  areaServed: [
+    { '@type': 'Country', name: 'United Arab Emirates' },
+    ...AREAS.map((a) => ({ '@type': 'City', name: a.name })),
+  ],
+  knowsAbout: SERVICE_DETAILS.map((s) => s.title),
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Glass & Aluminium Services',
+    itemListElement: SERVICE_DETAILS.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: s.title, url: absoluteUrl(servicePath(s.id)) },
+    })),
+  },
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
@@ -56,6 +72,17 @@ const business = {
     },
   ],
 }
+
+const faqPage = (faqs: { question: string; answer: string }[]) =>
+  jsonLd({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.question,
+      acceptedAnswer: { '@type': 'Answer', text: f.answer },
+    })),
+  })
 
 function structuredData(path: string): string {
   const route = matchRoute(path)
@@ -89,8 +116,25 @@ function structuredData(path: string): string {
     )
   }
 
-  if (route.type === 'services' || route.type === 'projects') {
-    return pageCrumbs(route.type === 'services' ? 'Services' : 'Projects')
+  if (route.type === 'services' || route.type === 'projects' || route.type === 'areas') {
+    return pageCrumbs(meta.heading)
+  }
+
+  if (route.type === 'area') {
+    const area = AREAS.find((a) => a.id === route.id)!
+    return (
+      jsonLd({
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        name: `Glass & Aluminium Works in ${area.name}`,
+        description: area.metaDescription,
+        url: absoluteUrl(meta.path),
+        areaServed: { '@type': 'City', name: area.name },
+        provider: { '@id': `${SITE_URL}/#business`, ...business },
+      }) +
+      faqPage(area.faqs) +
+      pageCrumbs(area.name, [{ name: 'Areas We Serve', path: '/areas/' }])
+    )
   }
 
   if (route.type === 'service') {
@@ -102,9 +146,11 @@ function structuredData(path: string): string {
         description: meta.description,
         image: absoluteImage(meta.image),
         url: absoluteUrl(meta.path),
-        areaServed: { '@type': 'Country', name: 'United Arab Emirates' },
+        areaServed: AREAS.map((a) => ({ '@type': 'City', name: a.name })),
         provider: { '@id': `${SITE_URL}/#business`, ...business },
-      }) + pageCrumbs(meta.heading, [{ name: 'Services', path: '/services/' }])
+      }) +
+      (SERVICE_SEO[route.id] ? faqPage(SERVICE_SEO[route.id].faqs) : '') +
+      pageCrumbs(meta.heading, [{ name: 'Services', path: '/services/' }])
     )
   }
 
@@ -123,6 +169,21 @@ function crawlerContent(path: string): string {
       .split('\n\n')
       .map((block) => `<p>${esc(block.trim())}</p>`)
       .join('')
+    const seo = SERVICE_SEO[route.id]
+    if (seo) {
+      html += `<h2>Key Benefits</h2><ul>${seo.benefits.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>`
+      html += `<h2>Typical Applications</h2><ul>${seo.applications.map((a) => `<li>${esc(a)}</li>`).join('')}</ul>`
+      html += `<h2>Frequently Asked Questions</h2>${seo.faqs.map((f) => `<h3>${esc(f.question)}</h3><p>${esc(f.answer)}</p>`).join('')}`
+    }
+  }
+
+  if (route.type === 'area') {
+    const area = AREAS.find((a) => a.id === route.id)!
+    html += area.intro.map((p) => `<p>${esc(p)}</p>`).join('')
+    html += `<h2>Our Glass Services in ${esc(area.name)}</h2><ul>`
+    html += SERVICE_DETAILS.map((s) => `<li><a href="${servicePath(s.id)}">${esc(s.title)} in ${esc(area.name)}</a></li>`).join('')
+    html += `</ul><h2>Areas We Cover in ${esc(area.name)}</h2><p>${area.districts.map(esc).join(', ')}</p>`
+    html += `<h2>FAQs</h2>${area.faqs.map((f) => `<h3>${esc(f.question)}</h3><p>${esc(f.answer)}</p>`).join('')}`
   }
 
   if (route.type === 'contact') {
@@ -139,6 +200,7 @@ function crawlerContent(path: string): string {
       ['/about/', 'About Us'],
       ['/services/', 'Services'],
       ['/projects/', 'Projects'],
+      ['/areas/', 'Areas We Serve'],
       ['/contact/', 'Contact'],
     ]
       .map(([href, label]) => `<li><a href="${href}">${label}</a></li>`)
@@ -147,6 +209,8 @@ function crawlerContent(path: string): string {
     html += SERVICE_DETAILS.map((s) => `<li><a href="${servicePath(s.id)}">${esc(s.title)}</a></li>`).join('')
     html += '</ul><h2>Projects</h2><ul>'
     html += GALLERY_PROJECTS.map((p) => `<li><a href="${projectPath(p.id)}">${esc(p.title)}</a></li>`).join('')
+    html += '</ul><h2>Areas We Serve</h2><ul>'
+    html += AREAS.map((a) => `<li><a href="${areaPath(a.id)}">Glass Company in ${esc(a.name)}</a></li>`).join('')
     html += '</ul></nav>'
   }
 
@@ -203,8 +267,8 @@ const urls = paths
   .map((path) => {
     const priority =
       path === '/' ? '1.0'
-      : ['/about/', '/services/', '/projects/', '/contact/'].includes(path) ? '0.9'
-      : path.startsWith('/services/') ? '0.8'
+      : ['/about/', '/services/', '/projects/', '/contact/', '/areas/'].includes(path) ? '0.9'
+      : path.startsWith('/services/') || path.startsWith('/areas/') ? '0.8'
       : '0.6'
     return `  <url>\n    <loc>${absoluteUrl(path)}</loc>\n    <lastmod>${today}</lastmod>\n    <priority>${priority}</priority>\n  </url>`
   })

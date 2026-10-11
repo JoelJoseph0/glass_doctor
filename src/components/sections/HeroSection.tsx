@@ -113,14 +113,15 @@ export default function HeroSection() {
           <div className="w-10 h-px bg-gradient-to-r from-[#B39A70] to-transparent" />
 
           <div className="relative">
-            <span className="text-[#B39A70] text-[9px] tracking-[0.42em] uppercase font-medium">
-              Est. 2025
-            </span>
+            <h1 className="text-[#B39A70] text-[9px] md:text-[10px] tracking-[0.42em] uppercase font-medium">
+              Glass &amp; Aluminium Company in Sharjah, UAE
+            </h1>
+            <span className="text-[#77736C] text-[9px] tracking-[0.42em] uppercase">Est. 2025</span>
             <div className="absolute -inset-2 bg-[#B39A70]/5 blur-xl -z-10" />
           </div>
         </div>
 
-        <h1 className={`
+        <div className={`
           font-display
           text-[#F8F7F4]
           text-5xl
@@ -151,7 +152,7 @@ export default function HeroSection() {
           
           {/* Decorative accent */}
           <div className="mt-4 w-20 h-1 bg-gradient-to-r from-[#B39A70] via-[#E8E4DC]/50 to-transparent" />
-        </h1>
+        </div>
 
         <p className={`
           text-[#E8E4DC]
@@ -163,8 +164,9 @@ export default function HeroSection() {
           transition-all duration-1000 delay-700
           ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
         `}>
-          Precision glass and architectural solutions for residential,
-          commercial, and architectural projects across the UAE.
+          Glass partitions, tempered, laminated, smart and double glazed glass,
+          curtain walls and aluminium works for homes and businesses in Sharjah,
+          Dubai, Abu Dhabi and across the UAE.
         </p>
 
         <div 
